@@ -95,13 +95,13 @@ public class ClassPlayer {
         int effectAmplifier = effect.getAmplifier();
         int effectAmplifier1 = effect1.getAmplifier();
         if (effectAmplifier1 < effectAmplifier) {
-          this.player.removePotionEffect(effectType);
+          Potions.removePotionEffect(player, effectType);
           addPendingEffect(effect1);
         } else if (effectAmplifier1 == effectAmplifier && effect1.getDuration() < effectDuration) {
-          this.player.removePotionEffect(effectType);
+          Potions.removePotionEffect(player, effectType);
         }
       }
-      this.player.addPotionEffect(effect);
+      Potions.addPotionEffect(player, effect);
     }
   }
 
@@ -114,8 +114,8 @@ public class ClassPlayer {
       Iterator<PotionEffect> pendingEffectsIterator = this.pendingEffects.iterator();
       while (pendingEffectsIterator.hasNext()) {
         PotionEffect effect = pendingEffectsIterator.next();
-        if (this.player.addPotionEffect(effect))
-          pendingEffectsIterator.remove();
+        pendingEffectsIterator.remove();
+        Potions.addPotionEffect(player, effect);
       }
     }
   }
@@ -157,14 +157,14 @@ public class ClassPlayer {
       byte b;
       int i;
       PotionEffect[] arrayOfPotionEffect;
-      for (i = (arrayOfPotionEffect = this.classType.getPassiveEffects()).length, b = 0; b < i; ) {
+      for (i = (arrayOfPotionEffect = this.classType.getPassiveEffects()).length, b = 0; b < i;) {
         PotionEffect potionEffect = arrayOfPotionEffect[b];
-        this.player.removePotionEffect(potionEffect.getType());
+        Potions.removePotionEffect(player, potionEffect.getType());
         b++;
-      } 
+      }
       if (this.classType == EquipableClass.MINER)
-        Potions.removePotionEffect(player, "INVISIBILITY"); 
-    } 
+        Potions.removePotionEffect(player, "INVISIBILITY");
+    }
   }
 
   public void setInvisible(boolean invisible) {

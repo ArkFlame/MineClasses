@@ -1,8 +1,11 @@
 package com.arkflame.classes.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import com.arkflame.classes.MineClasses;
 
 public class Potions {
   public static PotionEffect getPotionEffect(Player player, PotionEffectType potionEffectType) {
@@ -43,10 +46,18 @@ public class Potions {
     return null;
   }
 
+  public static void removePotionEffect(Player player, PotionEffectType potionEffectType) {
+    MineClasses.runTask(() -> player.removePotionEffect(potionEffectType));
+  }
+
+  public static void addPotionEffect(Player player, PotionEffect potionEffect) {
+    MineClasses.runTask(() -> player.addPotionEffect(potionEffect));
+  }
+
   public static void removePotionEffect(Player damagedPlayer, String name) {
     for (PotionEffect potionEffect : damagedPlayer.getActivePotionEffects()) {
       if (potionEffect.getType().getName().equalsIgnoreCase(name)) {
-        damagedPlayer.removePotionEffect(potionEffect.getType());
+        removePotionEffect(damagedPlayer, potionEffect.getType());
       }
     }
   }

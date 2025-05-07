@@ -19,12 +19,20 @@ import com.arkflame.classes.listeners.PlayerJoinListener;
 import com.arkflame.classes.listeners.PlayerQuitListener;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.placeholders.ClassesPlaceholders;
+import com.arkflame.classes.tasks.ClassesTask;
 import com.arkflame.classes.utils.ConfigUtil;
 
 public class MineClasses extends JavaPlugin {
+  private static MineClasses instance;
   private static ClassPlayerManager classPlayerManager;
 
-  private ClassesPlaceholders classesPlaceholders;
+  public static MineClasses getInstance() {
+    return instance;
+  }
+
+  public static void setInstance(MineClasses instance) {
+    MineClasses.instance = instance;
+  }
 
   private static void setClassPlayerManager(ClassPlayerManager classPlayerManager) {
     MineClasses.classPlayerManager = classPlayerManager;
@@ -34,7 +42,10 @@ public class MineClasses extends JavaPlugin {
     return classPlayerManager;
   }
 
+  private ClassesPlaceholders classesPlaceholders;
+
   public void onEnable() {
+    setInstance(this);
     setClassPlayerManager(new ClassPlayerManager());
     Server server = getServer();
     PluginManager pluginManager = server.getPluginManager();
@@ -53,11 +64,14 @@ public class MineClasses extends JavaPlugin {
       this.classesPlaceholders = new ClassesPlaceholders((Plugin) this, classPlayerManager);
       this.classesPlaceholders.register();
     }
+    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassesTask(server, classPlayerManager), 20L, 20L);
   }
 
   public void onDisable() {
-    if (this.classesPlaceholders != null)
+    if (this.classesPlaceholders != null) {
       this.classesPlaceholders.unregister();
+    }
+    Bukkit.getScheduler().cancelTasks(this);
   }
 
   public static String getTeam(Player player1) {
@@ -65,5 +79,13 @@ public class MineClasses extends JavaPlugin {
       return MineClansHook.getTeam(player1);
     }
     return null;
+  }
+
+  public static void runTask(Runnable task) {
+    if (Bukkit.isPrimaryThread()) {
+      task.run();
+    } else {
+      Bukkit.getScheduler().runTask(MineClasses.getInstance(), task);
+    }
   }
 }

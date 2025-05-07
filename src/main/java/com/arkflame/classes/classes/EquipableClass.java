@@ -12,6 +12,7 @@ import com.arkflame.classes.classes.impl.BardClass;
 import com.arkflame.classes.classes.impl.DiamondClass;
 import com.arkflame.classes.classes.impl.MinerClass;
 import com.arkflame.classes.classes.impl.RogueClass;
+import com.arkflame.classes.utils.Potions;
 
 public abstract class EquipableClass {
   public static final EquipableClass ARCHER = new ArcherClass();
@@ -26,7 +27,7 @@ public abstract class EquipableClass {
     ItemStack chestplateItem = inventory.getChestplate();
     ItemStack leggingsItem = inventory.getLeggings();
     ItemStack bootsItem = inventory.getBoots();
-
+    System.out.println("trying to get armor");
     if (helmetItem == null || chestplateItem == null || leggingsItem == null || bootsItem == null) {
       return null;
     }
@@ -35,7 +36,7 @@ public abstract class EquipableClass {
     Material chestplate = chestplateItem.getType();
     Material leggings = leggingsItem.getType();
     Material boots = bootsItem.getType();
-
+    System.out.println(helmet + " " + chestplate + " " + leggings + " " + boots);
     // Check if all armor pieces start with the same material type
     if (armorMatches("GOLD", helmet, chestplate, leggings, boots))
       return EquipableClass.BARD;
@@ -70,7 +71,7 @@ public abstract class EquipableClass {
   public final void applyEffects(Player player) {
     for (PotionEffect effect : getPassiveEffects()) {
       if (effect != null) {
-        player.addPotionEffect(effect);
+        Potions.addPotionEffect(player, effect);
       }
     }
   }
