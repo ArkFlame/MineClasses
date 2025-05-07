@@ -48,21 +48,21 @@ public class LanguageManager {
     return "en";
   }
 
-  public String getMessage(String locale, String key, String... placeholders) {
+  public String getMessage(String locale, String key, Object... placeholders) {
     String message = getLanguage(locale).getEntry(key);
     for (int i = 0; i < placeholders.length; i+=2) {
       if (i >= placeholders.length - 1)
         break;
-        message = message.replace(placeholders[i], placeholders[i+1]);
+        message = message.replace(String.valueOf(placeholders[i]), String.valueOf(placeholders[i+1]));
     }
     return message;
   }
 
-  public String getMessage(Player player, String key, String... placeholders) {
+  public String getMessage(Player player, String key, Object... placeholders) {
     return getMessage(Players.getLocale(player), key, placeholders);
   }
 
-  public void sendMessage(Player player, String key, String... placeholders) {
+  public void sendMessage(Player player, String key, Object... placeholders) {
     player.sendMessage(getMessage(player, key, placeholders));
   }
 }

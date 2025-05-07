@@ -14,19 +14,18 @@ import com.arkflame.classes.plugin.ClassesEffect;
 
 public abstract class EquipableMagicClass extends EquipableClass {
     protected final Map<Material, ClassesEffect> activeEffects = new EnumMap<>(Material.class);
-    protected boolean usesEnergy = false; // Default is false
-
-    public EquipableMagicClass(boolean usesEnergy) {
-        this.usesEnergy = usesEnergy;
-    }
+    protected boolean usesEnergy = false; // Use energy for the effect
+    protected boolean applyNearby = false; // Apply effect to nearby players
 
     @Override
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
-        if (item == null) return;
+        if (item == null)
+            return;
         ClassesEffect effect = activeEffects.get(item.getType());
-        if (effect == null) return;
+        if (effect == null)
+            return;
 
         ClassPlayer cp = MineClasses.getClassPlayerManager().get(player);
         float cooldown = cp.getCooldown() / 1000f;
@@ -45,18 +44,22 @@ public abstract class EquipableMagicClass extends EquipableClass {
         if (usesEnergy) {
             cp.setLastSpellTime();
             cp.addEnergy(-effect.getEnergy());
-            item.setAmount(item.getAmount() - 1);
-            player.sendMessage(ChatColor.RED + "-" + effect.getEnergy() + " energia");
-            player.sendMessage(ChatColor.GREEN + "Activaste el efecto de "
-                    + ChatColor.AQUA + effect.getEffectName() + ChatColor.GREEN
-                    + "! Te queda " + ChatColor.AQUA + cp.getEnergy() + ChatColor.GREEN + " energia.");
+            MineClasses.getInstance().getLanguageManager().sendMessage(player, "used_energy", "%energy%",
+                    effect.getEnergy());
+            MineClasses.getInstance().getLanguageManager().sendMessage(player, "activated_effect_energy", "%effect%",
+                    effect.getEffectName(), "%energy%", cp.getEnergy(), "%max_energy%", cp.getMaxEnergy());
+        } else {
+            MineClasses.getInstance().getLanguageManager().sendMessage(player, "activated_effect", "%effect%",
+                    effect.getEffectName());
         }
 
-        // Apply to self or nearby
+        item.setAmount(item.getAmount() - 1);
+
+        // Apply to self and nearby
         PotionEffect pe = effect.getPotionEffect();
-        if ("INCREASE_DAMAGE".equals(pe.getType().getName())) {
-            cp.givePotionEffect(pe);
+        cp.givePotionEffect(pe);
+        if (applyNearby) {
+            cp.giveNearPlayersEffect(pe, 25);
         }
-        cp.giveNearPlayersEffect(pe, 25);
     }
 }

@@ -31,7 +31,8 @@ public class BardClass extends EquipableMagicClass {
     }
 
     public BardClass() {
-        super(true);
+        usesEnergy = true;
+        applyNearby = true;
         activeEffects.put(Materials.get("SUGAR"),
                 new ClassesEffect("VELOCIDAD", 16, Potions.newPotionEffect("SPEED", 80, 2)));
         activeEffects.put(Materials.get("FEATHER"),

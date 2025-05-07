@@ -9,7 +9,6 @@ import com.arkflame.classes.utils.Materials;
 
 public class ArcherClass extends EquipableMagicClass {
     public ArcherClass() {
-        super(false);
         activeEffects.put(Materials.get("SUGAR"),
                 new ClassesEffect("VELOCIDAD", 0, Potions.newPotionEffect("SPEED", 100, 4)));
         activeEffects.put(Materials.get("FEATHER"),

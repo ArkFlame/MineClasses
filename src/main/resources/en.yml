@@ -1,1 +1,4 @@
 class_activated: "&aYou have activated the &b%class%&a class!"
+used_energy: "&c-%energy% energy"
+activated_effect: "&aYou have activated the &b%effect%&a effect!"
+activated_effect_energy: "&aYou have activated the &b%effect%&a effect! You have &b%energy%/%max_energy%&a energy."

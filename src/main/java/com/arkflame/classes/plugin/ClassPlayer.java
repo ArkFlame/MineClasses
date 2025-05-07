@@ -22,7 +22,7 @@ public class ClassPlayer {
 
   private EquipableClass classType = null;
 
-  private double energy = 0.0D;
+  private int energy = 0;
 
   private long lastSpellTime = 0L;
 
@@ -52,11 +52,11 @@ public class ClassPlayer {
     this.classType = classType;
   }
 
-  public void addEnergy(double power) {
-    this.energy += power;
+  public void addEnergy(int energy) {
+    this.energy += energy;
   }
 
-  public double getEnergy() {
+  public int getEnergy() {
     return this.energy;
   }
 
@@ -173,5 +173,9 @@ public class ClassPlayer {
 
   public boolean isInvisible() {
     return this.invisible;
+  }
+
+  public int getMaxEnergy() {
+    return 100;
   }
 }

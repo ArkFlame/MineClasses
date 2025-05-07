@@ -1,6 +1,5 @@
 package com.arkflame.classes.tasks;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -43,18 +42,18 @@ public class ClassesTask implements Runnable {
             classPlayer.givePotionEffect(potionEffect);
             b++;
           }
-          double energy = classPlayer.getEnergy();
+          int energy = classPlayer.getEnergy();
           if (newClassType == EquipableClass.BARD) {
-            if (energy < 100.0D) {
-              classPlayer.addEnergy(1.0D);
+            if (energy < classPlayer.getMaxEnergy()) {
+              classPlayer.addEnergy(1);
             }
             BardClass bardClass = (BardClass) classPlayer.getClassType();
             bardClass.runHeldItemEffect(classPlayer);
           } else {
-            if (energy > 0.0D)
+            if (energy > 0)
               classPlayer.addEnergy(-energy);
             if (newClassType == EquipableClass.MINER)
-              if (player.getLocation().getY() <= 50.0D) {
+              if (player.getLocation().getY() <= 50) {
                 classPlayer.givePotionEffect(Potions.newPotionEffect("INVISIBILITY", 1200, 0));
                 classPlayer.setInvisible(true);
               } else if (classPlayer.isInvisible()) {
