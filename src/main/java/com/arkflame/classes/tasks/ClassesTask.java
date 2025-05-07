@@ -27,9 +27,10 @@ public class ClassesTask implements Runnable {
       if (classPlayer != null) {
         EquipableClass newClassType = classPlayer.isEffectsAllowed() ? EquipableClass.getArmor(player) : null;
         EquipableClass oldClassType = classPlayer.getClassType();
-        if (classPlayer.setClassType(oldClassType)) {
+        if (newClassType != oldClassType) {
           classPlayer.clearPendingEffects();
           classPlayer.clearClassEffects();
+          classPlayer.setClassType(newClassType);
           if (newClassType != null)
             MineClasses.getInstance().getLanguageManager().sendMessage(player, "class_activated", "%class%", newClassType.getName());
         }
