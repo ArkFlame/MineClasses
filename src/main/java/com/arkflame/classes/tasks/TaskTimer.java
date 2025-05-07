@@ -22,14 +22,14 @@ public class TaskTimer {
   
   public TaskTimer(Plugin plugin, ClassPlayerManager classPlayerManager) {
     Server server = plugin.getServer();
-    this.effectMap.put(Materials.get("SUGAR"), new PotionEffect(PotionEffectType.SPEED, 100, 1));
-    this.effectMap.put(Materials.get("GHAST_TEAR"), new PotionEffect(PotionEffectType.REGENERATION, 100, 0));
-    this.effectMap.put(Materials.get("IRON_INGOT"), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0));
-    this.effectMap.put(Materials.get("BLAZE_POWDER"), new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0));
-    this.effectMap.put(Materials.get("GOLDEN_CARROT"), new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0));
-    this.effectMap.put(Materials.get("MAGMA_CREAM"), new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0));
-    this.effectMap.put(Materials.get("RABBIT_FOOT"), new PotionEffect(PotionEffectType.JUMP, 100, 1));
-    this.effectMap.put(Materials.get("INK_SACK"), new PotionEffect(PotionEffectType.INVISIBILITY, 100, 0));
+    this.effectMap.put(Materials.get("SUGAR"), Potions.newPotionEffect("SPEED", 100, 1));
+    this.effectMap.put(Materials.get("GHAST_TEAR"), Potions.newPotionEffect("REGENERATION", 100, 0));
+    this.effectMap.put(Materials.get("IRON_INGOT"), Potions.newPotionEffect("DAMAGE_RESISTANCE", 100, 0));
+    this.effectMap.put(Materials.get("BLAZE_POWDER"), Potions.newPotionEffect("INCREASE_DAMAGE", 100, 0));
+    this.effectMap.put(Materials.get("GOLDEN_CARROT"), Potions.newPotionEffect("NIGHT_VISION", 100, 0));
+    this.effectMap.put(Materials.get("MAGMA_CREAM"), Potions.newPotionEffect("FIRE_RESISTANCE", 100, 0));
+    this.effectMap.put(Materials.get("RABBIT_FOOT"), Potions.newPotionEffect("JUMP", 100, 1));
+    this.effectMap.put(Materials.get("INK_SACK"), Potions.newPotionEffect("INVISIBILITY", 100, 0));
     server.getScheduler().runTaskTimer(plugin, () -> {
           for (Player player : server.getOnlinePlayers())
             runTask(classPlayerManager, player); 
@@ -81,7 +81,7 @@ public class TaskTimer {
       if (potionEffect != null) {
         PotionEffectType potionEffectType = potionEffect.getType();
         if (potionEffect.getAmplifier() > 0)
-          potionEffect = new PotionEffect(potionEffectType, potionEffect.getDuration(), 0); 
+          potionEffect = Potions.newPotionEffect(potionEffectType, potionEffect.getDuration(), 0); 
         classPlayer.giveNearPlayersEffect(potionEffect, 25);
       } 
     } 
@@ -123,13 +123,13 @@ public class TaskTimer {
             classPlayer.addEnergy(-energy); 
           if (newClassType == ClassType.MINER)
             if (player.getLocation().getY() <= 50.0D) {
-              classPlayer.givePotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1200, 0));
+              classPlayer.givePotionEffect(Potions.newPotionEffect("INVISIBILITY", 1200, 0));
               classPlayer.setInvisible(true);
             } else if (classPlayer.isInvisible()) {
               PotionEffect potionEffect = Potions.getPotionEffect(player, 
-                  PotionEffectType.INVISIBILITY);
+                  "INVISIBILITY");
               if (potionEffect != null) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                Potions.removePotionEffect(player, "INVISIBILITY");
                 classPlayer.setInvisible(false);
               } 
             }  

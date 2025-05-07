@@ -18,6 +18,7 @@ import com.arkflame.classes.enums.ClassType;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.plugin.ClassPlayer;
 import com.arkflame.classes.utils.Materials;
+import com.arkflame.classes.utils.Potions;
 
 public class EntityDamageByEntityListener implements Listener {
   private final ClassPlayerManager classPlayerManager;
@@ -40,7 +41,7 @@ public class EntityDamageByEntityListener implements Listener {
             if (damaged instanceof Player) {
               Player damagedPlayer = (Player)damaged;
               ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
-              damagedPlayer.removePotionEffect(PotionEffectType.INVISIBILITY);
+              Potions.removePotionEffect(damagedPlayer, "INVISIBILITY");
               damagedClassPlayer.setLastArcherTagTime();
               damagedPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', 
                     "&cFuiste tageado por &e10 segundos&c por &b" + damagerPlayer.getDisplayName() + 

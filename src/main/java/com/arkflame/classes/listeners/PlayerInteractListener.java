@@ -11,12 +11,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import com.arkflame.classes.enums.ClassType;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.plugin.ClassPlayer;
 import com.arkflame.classes.plugin.ClassesEffect;
 import com.arkflame.classes.utils.Materials;
+import com.arkflame.classes.utils.Potions;
 
 public class PlayerInteractListener implements Listener {
   private final ClassPlayerManager classPlayerManager;
@@ -32,35 +32,35 @@ public class PlayerInteractListener implements Listener {
     this.effectMap.put(ClassType.ROGUE, rogueEffects);
     this.effectMap.put(ClassType.ARCHER, archerEffects);
     bardEffects.put(Materials.get("SUGAR"), 
-        new ClassesEffect("VELOCIDAD", 16, new PotionEffect(PotionEffectType.SPEED, 80, 2)));
+        new ClassesEffect("VELOCIDAD", 16, Potions.newPotionEffect("SPEED", 80, 2)));
     bardEffects.put(Materials.get("FEATHER"), 
-        new ClassesEffect("SALTO", 35, new PotionEffect(PotionEffectType.JUMP, 100, 4)));
+        new ClassesEffect("SALTO", 35, Potions.newPotionEffect("JUMP", 100, 4)));
     bardEffects.put(Materials.get("GHAST_TEAR"), 
-        new ClassesEffect("REGENERATION", 35, new PotionEffect(PotionEffectType.REGENERATION, 100, 1)));
+        new ClassesEffect("REGENERATION", 35, Potions.newPotionEffect("REGENERATION", 100, 1)));
     bardEffects.put(Materials.get("IRON_INGOT"), 
-        new ClassesEffect("RESISTENCIA", 35, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 2)));
+        new ClassesEffect("RESISTENCIA", 35, Potions.newPotionEffect("DAMAGE_RESISTANCE", 100, 2)));
     bardEffects.put(Materials.get("BLAZE_POWDER"), 
-        new ClassesEffect("FUERZA", 35, new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 1)));
+        new ClassesEffect("FUERZA", 35, Potions.newPotionEffect("INCREASE_DAMAGE", 100, 1)));
     bardEffects.put(Materials.get("GOLDEN_CARROT"), 
-        new ClassesEffect("VISION NOCTURNA", 20, new PotionEffect(PotionEffectType.NIGHT_VISION, 500, 1)));
+        new ClassesEffect("VISION NOCTURNA", 20, Potions.newPotionEffect("NIGHT_VISION", 500, 1)));
     bardEffects.put(Materials.get("MAGMA_CREAM"), new ClassesEffect("RESISTENCIA AL FUEGO", 20, 
-          new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 500, 0)));
+          Potions.newPotionEffect("FIRE_RESISTANCE", 500, 0)));
     bardEffects.put(Materials.get("SPIDER_EYE"), 
-        new ClassesEffect("WITHER", 35, new PotionEffect(PotionEffectType.WITHER, 100, 1)));
+        new ClassesEffect("WITHER", 35, Potions.newPotionEffect("WITHER", 100, 1)));
     bardEffects.put(Materials.get("RED_MUSHROOM"), 
-        new ClassesEffect("VENENO", 35, new PotionEffect(PotionEffectType.POISON, 100, 1)));
+        new ClassesEffect("VENENO", 35, Potions.newPotionEffect("POISON", 100, 1)));
     bardEffects.put(Materials.get("BROWN_MUSHROOM"), 
-        new ClassesEffect("DEBILIDAD", 35, new PotionEffect(PotionEffectType.WEAKNESS, 100, 0)));
+        new ClassesEffect("DEBILIDAD", 35, Potions.newPotionEffect("WEAKNESS", 100, 0)));
     bardEffects.put(Materials.get("INK_SACK"), 
-        new ClassesEffect("INVISIBILIDAD", 35, new PotionEffect(PotionEffectType.INVISIBILITY, 800, 0)));
+        new ClassesEffect("INVISIBILIDAD", 35, Potions.newPotionEffect("INVISIBILITY", 800, 0)));
     rogueEffects.put(Materials.get("SUGAR"), 
-        new ClassesEffect("VELOCIDAD", 0, new PotionEffect(PotionEffectType.SPEED, 100, 4)));
+        new ClassesEffect("VELOCIDAD", 0, Potions.newPotionEffect("SPEED", 100, 4)));
     rogueEffects.put(Materials.get("FEATHER"), 
-        new ClassesEffect("SALTO", 0, new PotionEffect(PotionEffectType.JUMP, 100, 4)));
+        new ClassesEffect("SALTO", 0, Potions.newPotionEffect("JUMP", 100, 4)));
     archerEffects.put(Materials.get("SUGAR"), 
-        new ClassesEffect("VELOCIDAD", 0, new PotionEffect(PotionEffectType.SPEED, 100, 4)));
+        new ClassesEffect("VELOCIDAD", 0, Potions.newPotionEffect("SPEED", 100, 4)));
     archerEffects.put(Materials.get("FEATHER"), 
-        new ClassesEffect("SALTO", 0, new PotionEffect(PotionEffectType.JUMP, 100, 4)));
+        new ClassesEffect("SALTO", 0, Potions.newPotionEffect("JUMP", 100, 4)));
   }
   
   private void applyEffect(Player player, ItemStack itemStack, ClassesEffect classesEffect) {
@@ -75,7 +75,7 @@ public class PlayerInteractListener implements Listener {
         classPlayer.setLastSpellTime();
         itemStack.setAmount(itemStack.getAmount() - 1);
         if (classType == ClassType.BARD) {
-          if (potionEffect.getType() != PotionEffectType.INCREASE_DAMAGE)
+          if (Potions.isPotionEffectType(potionEffect, "INCREASE_DAMAGE"))
             classPlayer.givePotionEffect(potionEffect); 
           classPlayer.giveNearPlayersEffect(potionEffect, 25);
           classPlayer.addEnergy(-energy);
