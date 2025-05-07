@@ -19,7 +19,6 @@ import com.arkflame.classes.listeners.PlayerJoinListener;
 import com.arkflame.classes.listeners.PlayerQuitListener;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.placeholders.ClassesPlaceholders;
-import com.arkflame.classes.tasks.TaskTimer;
 import com.arkflame.classes.utils.ConfigUtil;
 
 public class MineClasses extends JavaPlugin {
@@ -42,11 +41,10 @@ public class MineClasses extends JavaPlugin {
     String dataFolder = getDataFolder().toString();
     ConfigUtil configUtil = new ConfigUtil(this);
     LanguageManager languageManager = new LanguageManager(dataFolder, configUtil);
-    TaskTimer taskTimer = new TaskTimer((Plugin) this, classPlayerManager);
     pluginManager.registerEvents((Listener) new EntityDamageByEntityListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new EntityShootBowListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new PlayerInteractListener(classPlayerManager), (Plugin) this);
-    pluginManager.registerEvents((Listener) new PlayerItemHeldListener(classPlayerManager, taskTimer), (Plugin) this);
+    pluginManager.registerEvents((Listener) new PlayerItemHeldListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new PlayerJoinListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new PlayerQuitListener(classPlayerManager), (Plugin) this);
     getCommand("classes")

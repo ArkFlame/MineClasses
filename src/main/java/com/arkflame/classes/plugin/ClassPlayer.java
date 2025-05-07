@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import com.arkflame.classes.MineClasses;
-import com.arkflame.classes.enums.ClassType;
+import com.arkflame.classes.classes.EquipableClass;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.utils.Potions;
 
@@ -20,7 +20,7 @@ public class ClassPlayer {
 
   private ItemStack heldItem = null;
 
-  private ClassType classType = null;
+  private EquipableClass classType = null;
 
   private double energy = 0.0D;
 
@@ -44,11 +44,11 @@ public class ClassPlayer {
     return this.effectsAllowed;
   }
 
-  public ClassType getClassType() {
+  public EquipableClass getClassType() {
     return this.classType;
   }
 
-  public void setClassType(ClassType classType) {
+  public void setClassType(EquipableClass classType) {
     this.classType = classType;
   }
 
@@ -78,7 +78,7 @@ public class ClassPlayer {
 
   public long getCooldown() {
     int cooldown;
-    if (this.classType == ClassType.BARD) {
+    if (this.classType == EquipableClass.BARD) {
       cooldown = 5000;
     } else {
       cooldown = 40000;
@@ -157,12 +157,12 @@ public class ClassPlayer {
       byte b;
       int i;
       PotionEffect[] arrayOfPotionEffect;
-      for (i = (arrayOfPotionEffect = this.classType.getPotionEffects()).length, b = 0; b < i; ) {
+      for (i = (arrayOfPotionEffect = this.classType.getPassiveEffects()).length, b = 0; b < i; ) {
         PotionEffect potionEffect = arrayOfPotionEffect[b];
         this.player.removePotionEffect(potionEffect.getType());
         b++;
       } 
-      if (this.classType == ClassType.MINER)
+      if (this.classType == EquipableClass.MINER)
         Potions.removePotionEffect(player, "INVISIBILITY"); 
     } 
   }

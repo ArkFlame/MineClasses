@@ -3,7 +3,6 @@ package com.arkflame.classes.listeners;
 import java.util.Iterator;
 import java.util.Map;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -15,7 +14,8 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
-import com.arkflame.classes.enums.ClassType;
+
+import com.arkflame.classes.classes.EquipableClass;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.plugin.ClassPlayer;
 import com.arkflame.classes.utils.Materials;
@@ -35,7 +35,7 @@ public class EntityShootBowListener implements Listener {
       if (livingEntity instanceof Player) {
         Player player = (Player)livingEntity;
         ClassPlayer classPlayer = this.classPlayerManager.get(player);
-        if (classPlayer.getClassType() == ClassType.ARCHER) {
+        if (classPlayer.getClassType() == EquipableClass.ARCHER) {
           boolean chance = (Math.random() > 0.9D);
           if (chance) {
             PlayerInventory playerInventory = player.getInventory();

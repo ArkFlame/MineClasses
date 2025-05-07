@@ -12,9 +12,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import com.arkflame.classes.enums.ClassType;
+
+import com.arkflame.classes.classes.EquipableClass;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.plugin.ClassPlayer;
 import com.arkflame.classes.utils.Materials;
@@ -37,7 +37,7 @@ public class EntityDamageByEntityListener implements Listener {
         EntityDamageEvent.DamageCause damageCause = event.getCause();
         Entity damaged = event.getEntity();
         if (damageCause == EntityDamageEvent.DamageCause.PROJECTILE) {
-          if (classPlayer.getClassType() == ClassType.ARCHER) {
+          if (classPlayer.getClassType() == EquipableClass.ARCHER) {
             if (damaged instanceof Player) {
               Player damagedPlayer = (Player)damaged;
               ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
@@ -56,7 +56,7 @@ public class EntityDamageByEntityListener implements Listener {
             if (damagedClassPlayer.hasArcherTag())
               event.setDamage(event.getDamage() * 1.25D); 
           } 
-          if (classPlayer.getClassType() == ClassType.ROGUE) {
+          if (classPlayer.getClassType() == EquipableClass.ROGUE) {
             Location damagerLocation = damager.getLocation();
             Vector damagerDirection = damagerLocation.getDirection();
             Vector damagedDirection = damaged.getLocation().getDirection();

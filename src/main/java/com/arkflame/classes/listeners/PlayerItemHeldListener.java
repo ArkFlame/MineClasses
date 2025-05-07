@@ -7,19 +7,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import com.arkflame.classes.enums.ClassType;
+
+import com.arkflame.classes.classes.EquipableClass;
+import com.arkflame.classes.classes.impl.BardClass;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.plugin.ClassPlayer;
-import com.arkflame.classes.tasks.TaskTimer;
 
 public class PlayerItemHeldListener implements Listener {
   private final ClassPlayerManager classPlayerManager;
   
-  private final TaskTimer taskTimer;
-  
-  public PlayerItemHeldListener(ClassPlayerManager classPlayerManager, TaskTimer taskTimer) {
+  public PlayerItemHeldListener(ClassPlayerManager classPlayerManager) {
     this.classPlayerManager = classPlayerManager;
-    this.taskTimer = taskTimer;
   }
   
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
@@ -29,7 +27,9 @@ public class PlayerItemHeldListener implements Listener {
     PlayerInventory playerInventory = player.getInventory();
     ItemStack heldItem = playerInventory.getItem(event.getNewSlot());
     classPlayer.setHeldItem(heldItem);
-    if (classPlayer.getClassType() == ClassType.BARD)
-      this.taskTimer.runBardEffect(classPlayer); 
+    if (classPlayer.getClassType() == EquipableClass.BARD) {
+      BardClass bardClass = (BardClass) classPlayer.getClassType();
+      bardClass.runHeldItemEffect(classPlayer); 
+    }
   }
 }
