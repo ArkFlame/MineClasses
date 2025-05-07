@@ -1,10 +1,1 @@
-help: |-
-  &aClasses &b%version%&a por &bLinsaFTW
-  &eClasses te permite obtener efectos usando diversos sets de armaduras.
-  &r
-  &aDiamond: &fArmadura de Diamante
-  &aMiner: &fArmadura de Hierro
-  &aRogue: &fArmadura de Cota de malla
-  &aBard: &fArmadura de Oro
-  &aArcher: &fArmadura de Cuero
-unknown_command: "&cEste comando aun no fue implementado, usa /classes help para mas informacion."
+class_activated: "&aHas activado la clase &b%class%&a!"

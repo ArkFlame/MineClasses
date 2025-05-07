@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import com.arkflame.classes.utils.ConfigUtil;
+import com.arkflame.classes.utils.Players;
 
 public class LanguageManager {
   private final Map<String, ClassesLanguage> locales = new HashMap<>();
-
-  private final String defaultLocale = "en";
 
   public LanguageManager(String dataFolder, ConfigUtil configUtil) {
     String[] premadeLocales = { "en", "es" };
@@ -46,5 +46,23 @@ public class LanguageManager {
     if (rawLocale.length() > 1)
       return rawLocale.substring(0, 2);
     return "en";
+  }
+
+  public String getMessage(String locale, String key, String... placeholders) {
+    String message = getLanguage(locale).getEntry(key);
+    for (int i = 0; i < placeholders.length; i+=2) {
+      if (i >= placeholders.length - 1)
+        break;
+        message = message.replace(placeholders[i], placeholders[i+1]);
+    }
+    return message;
+  }
+
+  public String getMessage(Player player, String key, String... placeholders) {
+    return getMessage(Players.getLocale(player), key, placeholders);
+  }
+
+  public void sendMessage(Player player, String key, String... placeholders) {
+    player.sendMessage(getMessage(player, key, placeholders));
   }
 }

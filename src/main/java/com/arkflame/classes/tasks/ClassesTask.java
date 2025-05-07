@@ -4,6 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+
+import com.arkflame.classes.MineClasses;
 import com.arkflame.classes.classes.EquipableClass;
 import com.arkflame.classes.classes.impl.BardClass;
 import com.arkflame.classes.managers.ClassPlayerManager;
@@ -30,8 +32,7 @@ public class ClassesTask implements Runnable {
           classPlayer.clearClassEffects();
           classPlayer.setClassType(newClassType);
           if (newClassType != null)
-            player.sendMessage(ChatColor.GREEN + "Activaste la clase " + ChatColor.AQUA +
-                newClassType.getName() + ChatColor.GREEN + "!");
+            MineClasses.getInstance().getLanguageManager().sendMessage(player, "class_activated", "%class%", newClassType.getName());
         }
         if (newClassType != null) {
           byte b;

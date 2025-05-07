@@ -43,6 +43,11 @@ public class MineClasses extends JavaPlugin {
   }
 
   private ClassesPlaceholders classesPlaceholders;
+  private LanguageManager languageManager;
+
+  public LanguageManager getLanguageManager() {
+    return languageManager;
+  }
 
   public void onEnable() {
     setInstance(this);
@@ -51,7 +56,7 @@ public class MineClasses extends JavaPlugin {
     PluginManager pluginManager = server.getPluginManager();
     String dataFolder = getDataFolder().toString();
     ConfigUtil configUtil = new ConfigUtil(this);
-    LanguageManager languageManager = new LanguageManager(dataFolder, configUtil);
+    languageManager = new LanguageManager(dataFolder, configUtil);
     pluginManager.registerEvents((Listener) new EntityDamageByEntityListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new EntityShootBowListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new PlayerInteractListener(classPlayerManager), (Plugin) this);

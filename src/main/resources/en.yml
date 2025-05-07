@@ -1,10 +1,1 @@
-help: |-
-  &aClasses &b%version%&a by &bLinsaFTW
-  &eClasses allows you to get effects by using different sets of armor.
-  &r
-  &aDiamond: &fDiamond Armor
-  &aMiner: &fIron Armor
-  &aRogue: &fChainmail Armor
-  &aBard: &fGolden Armor
-  &aArcher: &fLeather Armor
-unknown_command: "&cThis command was not implemented yet, use /classes help for more information."
+class_activated: "&aYou have activated the &b%class%&a class!"
