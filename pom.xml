@@ -2,19 +2,19 @@
     <modelVersion>4.0.0</modelVersion>
     
     <!-- Project information -->
-    <groupId>dev._2lstudios</groupId>
-    <artifactId>Classes</artifactId>
+    <groupId>com.arkflame</groupId>
+    <artifactId>MineClasses</artifactId>
     <packaging>jar</packaging>
 
     <!-- Plugin Information -->
-    <name>Classes</name>
+    <name>MineClasses</name>
     <description>Classes plugin for HCF</description>
-    <version>0.0.1</version>
-    <url>https://github.com/2lstudios-mc/Classes</url>
+    <version>1.0.0</version>
+    <url>https://github.com/arkflame/MineClasses</url>
 
     <properties>
-        <author>2LStudios</author>
-        <mainClass>dev._2lstudios.classes.Classes</mainClass>
+        <author>ArkFlame Development</author>
+        <mainClass>com.arkflame.classes.MineClasses</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -23,10 +23,6 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>2lstudios-repo</id>
-            <url>https://repo.2lstudios.dev/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>
@@ -39,19 +35,19 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
+          </dependency>
         <dependency>
-            <groupId>dev._2lstudios</groupId>
-            <artifactId>Teams</artifactId>
-            <version>0.0.1</version>
+            <groupId>com.arkflame</groupId>
+            <artifactId>MineClans</artifactId>
+            <version>1.0.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
              <artifactId>placeholderapi</artifactId>
-             <version>2.10.10</version>
+             <version>2.11.6</version>
             <scope>provided</scope>
            </dependency>
     </dependencies>

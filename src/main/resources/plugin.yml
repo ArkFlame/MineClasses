@@ -4,7 +4,9 @@ author: ${author}
 main: ${mainClass}
 version: ${version}
 url: ${url}
-softdepend: [PlaceholderAPI, Teams]
+api: 1.13
+api-version: 1.13
+softdepend: [PlaceholderAPI, MineClans]
 commands:
   classes:
     aliases: [bard]
