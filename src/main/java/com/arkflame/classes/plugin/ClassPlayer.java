@@ -48,8 +48,17 @@ public class ClassPlayer {
     return this.classType;
   }
 
-  public void setClassType(EquipableClass classType) {
-    this.classType = classType;
+  public boolean setClassType(EquipableClass classType) {
+    if (this.classType != classType) {
+      this.classType = classType;
+      setEnergy(0); // Reset energy
+      return true;
+    }
+    return false;
+  }
+
+  public void setEnergy(int energy) {
+    this.energy = energy;
   }
 
   public void addEnergy(int energy) {
@@ -72,18 +81,12 @@ public class ClassPlayer {
     this.lastSpellTime = System.currentTimeMillis();
   }
 
-  public boolean hasSpellCooldown(long cooldown) {
-    return (System.currentTimeMillis() - this.lastSpellTime <= cooldown);
-  }
-
-  public long getCooldown() {
-    int cooldown;
-    if (this.classType == EquipableClass.BARD) {
-      cooldown = 5000;
-    } else {
-      cooldown = 40000;
+  public long getCooldownLeftMillis() {
+    if (this.classType == null) {
+      return 1;
     }
-    return cooldown - System.currentTimeMillis() - this.lastSpellTime;
+    int cooldown = this.classType.getCooldown();
+    return (cooldown - (System.currentTimeMillis() - this.lastSpellTime));
   }
 
   public void givePotionEffect(PotionEffect effect) {
@@ -154,13 +157,8 @@ public class ClassPlayer {
 
   public void clearClassEffects() {
     if (this.classType != null) {
-      byte b;
-      int i;
-      PotionEffect[] arrayOfPotionEffect;
-      for (i = (arrayOfPotionEffect = this.classType.getPassiveEffects()).length, b = 0; b < i;) {
-        PotionEffect potionEffect = arrayOfPotionEffect[b];
+      for (PotionEffect potionEffect : this.classType.getPassiveEffects()) {
         Potions.removePotionEffect(player, potionEffect.getType());
-        b++;
       }
       if (this.classType == EquipableClass.MINER)
         Potions.removePotionEffect(player, "INVISIBILITY");
@@ -177,5 +175,9 @@ public class ClassPlayer {
 
   public int getMaxEnergy() {
     return 100;
+  }
+
+  public float getCooldownLeftSeconds() {
+    return Math.round(this.getCooldownLeftMillis() / 1000f * 10f) / 10f; // #.#
   }
 }

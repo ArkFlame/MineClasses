@@ -1,4 +1,20 @@
 class_activated: "&aYou have activated the &b%class%&a class!"
 used_energy: "&c-%energy% energy"
+
 activated_effect: "&aYou have activated the &b%effect%&a effect!"
 activated_effect_energy: "&aYou have activated the &b%effect%&a effect! You have &b%energy%/%max_energy%&a energy."
+
+on_cooldown: "&cWait &b%cooldown%&c seconds to use again."
+not_enough_energy: "&cYou don't have enough energy. You need &b%energy_required%&c more energy."
+
+effects_speed: "Speed"
+effects_jump: "Jump"
+effects_invisibility: "Invisibility"
+effects_night_vision: "Night vision"
+effects_fire_resistance: "Fire resistance"
+effects_regeneration: "Regeneration"
+effects_resistance: "Resistance"
+effects_strength: "Strength"
+effects_wither: "Wither"
+effects_poison: "Poison"
+effects_weakness: "Weakness"

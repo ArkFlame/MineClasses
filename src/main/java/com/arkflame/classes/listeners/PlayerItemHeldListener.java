@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.arkflame.classes.classes.EquipableClass;
-import com.arkflame.classes.classes.impl.BardClass;
 import com.arkflame.classes.managers.ClassPlayerManager;
 import com.arkflame.classes.plugin.ClassPlayer;
 
@@ -27,9 +26,9 @@ public class PlayerItemHeldListener implements Listener {
     PlayerInventory playerInventory = player.getInventory();
     ItemStack heldItem = playerInventory.getItem(event.getNewSlot());
     classPlayer.setHeldItem(heldItem);
-    if (classPlayer.getClassType() == EquipableClass.BARD) {
-      BardClass bardClass = (BardClass) classPlayer.getClassType();
-      bardClass.runHeldItemEffect(classPlayer); 
+    EquipableClass classType = classPlayer.getClassType();
+    if (classType != null) {
+      classType.runHeldItemEffect(classPlayer); 
     }
   }
 }

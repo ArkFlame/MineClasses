@@ -1,4 +1,20 @@
 class_activated: "&aHas activado la clase &b%class%&a!"
 used_energy: "&c-%energy% energia"
+
 activated_effect: "&aActivaste el efecto de &b%effect%&a!"
 activated_effect_energy: "&aActivaste el efecto de &b%effect%&a! Te quedan &b%energy%/%max_energy%&a de energia."
+
+on_cooldown: "&cEspera &b%cooldown%&c segundos para usarlo de nuevo."
+not_enough_energy: "&cNo tienes suficiente energia. Necesitas &b%energy_required%&c mas energia."
+
+effects_speed: "Velocidad"
+effects_jump: "Salto"
+effects_invisibility: "Invisibilidad"
+effects_night_vision: "Visión nocturna"
+effects_fire_resistance: "Resistencia al fuego"
+effects_regeneration: "Regeneración"
+effects_resistance: "Resistencia"
+effects_strength: "Fuerza"
+effects_wither: "Wither"
+effects_poison: "Veneno"
+effects_weakness: "Debilidad"

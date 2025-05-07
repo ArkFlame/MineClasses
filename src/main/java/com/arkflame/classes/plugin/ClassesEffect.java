@@ -1,6 +1,9 @@
 package com.arkflame.classes.plugin;
 
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+
+import com.arkflame.classes.MineClasses;
 
 public class ClassesEffect {
   private final String effectName;
@@ -23,7 +26,7 @@ public class ClassesEffect {
     return this.energy;
   }
   
-  public String getEffectName() {
-    return this.effectName;
+  public String getEffectName(Player player) {
+    return MineClasses.getInstance().getLanguageManager().getMessage(player, effectName);
   }
 }

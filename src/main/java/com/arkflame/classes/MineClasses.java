@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.arkflame.classes.commandexecutors.ClassesCommandExecutor;
+import com.arkflame.classes.hooks.PlaceholderAPIHook;
 import com.arkflame.classes.hooks.MineClansHook;
 import com.arkflame.classes.language.LanguageManager;
 import com.arkflame.classes.listeners.EntityDamageByEntityListener;
@@ -18,7 +19,6 @@ import com.arkflame.classes.listeners.PlayerItemHeldListener;
 import com.arkflame.classes.listeners.PlayerJoinListener;
 import com.arkflame.classes.listeners.PlayerQuitListener;
 import com.arkflame.classes.managers.ClassPlayerManager;
-import com.arkflame.classes.placeholders.ClassesPlaceholders;
 import com.arkflame.classes.tasks.ClassesTask;
 import com.arkflame.classes.utils.ConfigUtil;
 
@@ -42,7 +42,7 @@ public class MineClasses extends JavaPlugin {
     return classPlayerManager;
   }
 
-  private ClassesPlaceholders classesPlaceholders;
+  private PlaceholderAPIHook classesPlaceholders;
   private LanguageManager languageManager;
 
   public LanguageManager getLanguageManager() {
@@ -66,7 +66,7 @@ public class MineClasses extends JavaPlugin {
     getCommand("classes")
         .setExecutor((CommandExecutor) new ClassesCommandExecutor(languageManager, getDescription().getVersion()));
     if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
-      this.classesPlaceholders = new ClassesPlaceholders((Plugin) this, classPlayerManager);
+      this.classesPlaceholders = new PlaceholderAPIHook((Plugin) this, classPlayerManager);
       this.classesPlaceholders.register();
     }
     Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassesTask(server, classPlayerManager), 20L, 20L);
