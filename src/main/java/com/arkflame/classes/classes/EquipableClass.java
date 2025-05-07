@@ -112,6 +112,9 @@ public abstract class EquipableClass {
   }
 
   public void onInteract(PlayerInteractEvent event) {
+    if (activeEffects.isEmpty()) {
+      return;
+    }
     Player player = event.getPlayer();
     ItemStack item = event.getItem();
     if (item == null)
@@ -158,6 +161,9 @@ public abstract class EquipableClass {
   }
 
   public void runHeldItemEffect(ClassPlayer classPlayer) {
+    if (heldItemEffects.isEmpty()) {
+      return;
+    }
     ItemStack heldItem = classPlayer.getHeldItem();
     if (heldItem != null) {
       PotionEffect potionEffect = heldItemEffects.get(heldItem.getType());

@@ -1,15 +1,6 @@
 package com.arkflame.classes.classes.impl;
 
-import java.util.EnumMap;
-import java.util.Map;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import com.arkflame.classes.classes.EquipableClass;
-import com.arkflame.classes.plugin.ClassPlayer;
 import com.arkflame.classes.plugin.ClassesEffect;
 import com.arkflame.classes.utils.Potions;
 import com.arkflame.classes.utils.Materials;
