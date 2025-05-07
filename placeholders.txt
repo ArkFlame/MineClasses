@@ -1,0 +1,4 @@
+%mineclasses_class%
+%mineclasses_cooldown%
+%mineclasses_energy%
+%mineclasses_max_energy%

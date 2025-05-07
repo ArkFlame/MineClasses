@@ -18,7 +18,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
   }
   
   public String getIdentifier() {
-    return "Classes";
+    return "MineClasses";
   }
   
   public String getAuthor() {
