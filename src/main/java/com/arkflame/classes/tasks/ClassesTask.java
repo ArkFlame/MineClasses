@@ -25,14 +25,13 @@ public class ClassesTask implements Runnable {
       if (classPlayer != null) {
         EquipableClass newClassType = classPlayer.isEffectsAllowed() ? EquipableClass.getArmor(player) : null;
         EquipableClass oldClassType = classPlayer.getClassType();
-        System.out.println("newClassType: " + newClassType + " oldClassType: " + oldClassType);
         if (newClassType != oldClassType) {
           classPlayer.clearPendingEffects();
           classPlayer.clearClassEffects();
           classPlayer.setClassType(newClassType);
           if (newClassType != null)
             player.sendMessage(ChatColor.GREEN + "Activaste la clase " + ChatColor.AQUA +
-                newClassType.toString() + ChatColor.GREEN + "!");
+                newClassType.getName() + ChatColor.GREEN + "!");
         }
         if (newClassType != null) {
           byte b;

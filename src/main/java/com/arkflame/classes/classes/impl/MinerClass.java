@@ -14,4 +14,9 @@ public class MinerClass extends EquipableClass {
             Potions.newPotionEffect("NIGHT_VISION", 1200, 0)
         };
     }
+
+    @Override
+    public String getName() {
+        return "Miner";
+    }
 }

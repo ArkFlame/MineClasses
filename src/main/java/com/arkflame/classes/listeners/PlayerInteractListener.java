@@ -13,10 +13,11 @@ import com.arkflame.classes.plugin.ClassPlayer;
 
 public class PlayerInteractListener implements Listener {
   private final ClassPlayerManager classPlayerManager;
+
   public PlayerInteractListener(ClassPlayerManager classPlayerManager) {
     this.classPlayerManager = classPlayerManager;
   }
-  
+
   @EventHandler
   public void onPlayerInteract(PlayerInteractEvent event) {
     Action action = event.getAction();
@@ -26,8 +27,11 @@ public class PlayerInteractListener implements Listener {
       if (itemStack != null) {
         ClassPlayer classPlayer = this.classPlayerManager.get(player);
         EquipableClass classType = classPlayer.getClassType();
+        if (classType == null) {
+          return;
+        }
         classType.onInteract(event);
-      } 
-    } 
+      }
+    }
   }
 }

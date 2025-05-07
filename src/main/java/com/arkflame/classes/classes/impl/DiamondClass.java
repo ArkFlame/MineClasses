@@ -12,4 +12,9 @@ public class DiamondClass extends EquipableClass {
             Potions.newPotionEffect("SPEED", 1200, 0)
         };
     }
+
+    @Override
+    public String getName() {
+        return "Diamond";
+    }
 }

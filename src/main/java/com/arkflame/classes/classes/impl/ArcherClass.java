@@ -23,4 +23,8 @@ public class ArcherClass extends EquipableMagicClass {
                 Potions.newPotionEffect("DAMAGE_RESISTANCE", 1200, 2)
         };
     }
+
+    public String getName() {
+        return "Archer";
+    }
 }

@@ -73,4 +73,8 @@ public class BardClass extends EquipableMagicClass {
                 Potions.newPotionEffect("DAMAGE_RESISTANCE", 1200, 1)
         };
     }
+
+    public String getName() {
+        return "Bard";
+    }
 }
