@@ -8,6 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.arkflame.classes.classes.EquipableClass;
 import com.arkflame.classes.commandexecutors.ClassesCommandExecutor;
 import com.arkflame.classes.hooks.PlaceholderAPIHook;
 import com.arkflame.classes.hooks.MineClansHook;
@@ -56,6 +58,7 @@ public class MineClasses extends JavaPlugin {
     PluginManager pluginManager = server.getPluginManager();
     String dataFolder = getDataFolder().toString();
     ConfigUtil configUtil = new ConfigUtil(this);
+    EquipableClass.loadClasses(configUtil);
     languageManager = new LanguageManager(dataFolder, configUtil);
     pluginManager.registerEvents((Listener) new EntityDamageByEntityListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new EntityShootBowListener(classPlayerManager), (Plugin) this);

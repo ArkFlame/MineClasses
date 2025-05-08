@@ -1,0 +1,248 @@
+classes:
+  Archer:
+    # no energy cost, no AoE
+    usesEnergy: false
+    applyNearby: false
+    archer: true # Tags players and increases arrow damage
+    cooldown: 40000 # milliseconds
+
+    armor:
+      helmet: LEATHER_HELMET
+      chestplate: LEATHER_CHESTPLATE
+      leggings: LEATHER_LEGGINGS
+      boots: LEATHER_BOOTS
+
+    passiveEffects:
+      - type: SPEED # PotionEffectType name
+        duration: 1200 # ticks (60s = 1200 ticks)
+        amplifier: 2
+      - type: DAMAGE_RESISTANCE
+        duration: 1200
+        amplifier: 2
+
+    activeEffects:
+      SUGAR:
+        key: effects_speed
+        energy: 0
+        effect:
+          type: SPEED
+          duration: 100
+          amplifier: 4
+      FEATHER:
+        key: effects_jump
+        energy: 0
+        effect:
+          type: JUMP
+          duration: 100
+          amplifier: 4
+
+  Bard:
+    usesEnergy: true
+    applyNearby: true
+    cooldown: 5000
+
+    armor:
+      helmet: GOLDEN_HELMET
+      chestplate: GOLDEN_CHESTPLATE
+      leggings: GOLDEN_LEGGINGS
+      boots: GOLDEN_BOOTS
+
+    passiveEffects:
+      - type: SPEED
+        duration: 1200
+        amplifier: 1
+      - type: REGENERATION
+        duration: 1200
+        amplifier: 0
+      - type: DAMAGE_RESISTANCE
+        duration: 1200
+        amplifier: 1
+
+    activeEffects:
+      SUGAR:
+        key: effects_speed
+        energy: 16
+        effect:
+          type: SPEED
+          duration: 80
+          amplifier: 2
+      FEATHER:
+        key: effects_jump
+        energy: 35
+        effect:
+          type: JUMP
+          duration: 100
+          amplifier: 4
+      GHAST_TEAR:
+        key: effects_regeneration
+        energy: 35
+        effect:
+          type: REGENERATION
+          duration: 100
+          amplifier: 1
+      IRON_INGOT:
+        key: effects_resistance
+        energy: 35
+        effect:
+          type: DAMAGE_RESISTANCE
+          duration: 100
+          amplifier: 2
+      BLAZE_POWDER:
+        key: effects_strength
+        energy: 35
+        effect:
+          type: INCREASE_DAMAGE
+          duration: 100
+          amplifier: 1
+      GOLDEN_CARROT:
+        key: effects_night_vision
+        energy: 20
+        effect:
+          type: NIGHT_VISION
+          duration: 500
+          amplifier: 1
+      MAGMA_CREAM:
+        key: effects_fire_resistance
+        energy: 20
+        effect:
+          type: FIRE_RESISTANCE
+          duration: 500
+          amplifier: 0
+      SPIDER_EYE:
+        key: effects_wither
+        energy: 35
+        effect:
+          type: WITHER
+          duration: 100
+          amplifier: 1
+      RED_MUSHROOM:
+        key: effects_poison
+        energy: 35
+        effect:
+          type: POISON
+          duration: 100
+          amplifier: 1
+      BROWN_MUSHROOM:
+        key: effects_weakness
+        energy: 35
+        effect:
+          type: WEAKNESS
+          duration: 100
+          amplifier: 0
+      INK_SACK:
+        key: effects_invisibility
+        energy: 35
+        effect:
+          type: INVISIBILITY
+          duration: 800
+          amplifier: 0
+
+    heldItemEffects:
+      SUGAR:
+        type: SPEED
+        duration: 100
+        amplifier: 1
+      GHAST_TEAR:
+        type: REGENERATION
+        duration: 100
+        amplifier: 0
+      IRON_INGOT:
+        type: DAMAGE_RESISTANCE
+        duration: 100
+        amplifier: 0
+      BLAZE_POWDER:
+        type: INCREASE_DAMAGE
+        duration: 100
+        amplifier: 0
+      GOLDEN_CARROT:
+        type: NIGHT_VISION
+        duration: 100
+        amplifier: 0
+      MAGMA_CREAM:
+        type: FIRE_RESISTANCE
+        duration: 100
+        amplifier: 0
+      RABBIT_FOOT:
+        type: JUMP
+        duration: 100
+        amplifier: 1
+      INK_SACK:
+        type: INVISIBILITY
+        duration: 100
+        amplifier: 0
+
+  Diamond:
+    usesEnergy: false
+    applyNearby: false
+
+    armor:
+      helmet: DIAMOND_HELMET
+      chestplate: DIAMOND_CHESTPLATE
+      leggings: DIAMOND_LEGGINGS
+      boots: DIAMOND_BOOTS
+
+    passiveEffects:
+      - type: SPEED
+        duration: 1200
+        amplifier: 0
+
+  Miner:
+    usesEnergy: false
+    applyNearby: false
+    miner: true # Invisible when underground
+
+    armor:
+      helmet: IRON_HELMET
+      chestplate: IRON_CHESTPLATE
+      leggings: IRON_LEGGINGS
+      boots: IRON_BOOTS
+
+    passiveEffects:
+      - type: FIRE_RESISTANCE
+        duration: 1200
+        amplifier: 1
+      - type: FAST_DIGGING
+        duration: 1200
+        amplifier: 1
+      - type: NIGHT_VISION
+        duration: 1200
+        amplifier: 0
+
+  Rogue:
+    usesEnergy: false
+    applyNearby: false
+    cooldown: 40000
+    rogue: true # Backstabs extra damage with golden swords
+
+    armor:
+      helmet: CHAINMAIL_HELMET
+      chestplate: CHAINMAIL_CHESTPLATE
+      leggings: CHAINMAIL_LEGGINGS
+      boots: CHAINMAIL_BOOTS
+
+    passiveEffects:
+      - type: SPEED
+        duration: 1200
+        amplifier: 2
+      - type: JUMP
+        duration: 1200
+        amplifier: 2
+      - type: DAMAGE_RESISTANCE
+        duration: 1200
+        amplifier: 1
+
+    activeEffects:
+      SUGAR:
+        key: effects_speed
+        energy: 0
+        effect:
+          type: SPEED
+          duration: 100
+          amplifier: 4
+      FEATHER:
+        key: effects_jump
+        energy: 0
+        effect:
+          type: JUMP
+          duration: 100
+          amplifier: 4

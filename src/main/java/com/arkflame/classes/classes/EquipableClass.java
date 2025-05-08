@@ -1,72 +1,117 @@
 package com.arkflame.classes.classes;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.arkflame.classes.MineClasses;
-import com.arkflame.classes.classes.impl.ArcherClass;
-import com.arkflame.classes.classes.impl.BardClass;
-import com.arkflame.classes.classes.impl.DiamondClass;
-import com.arkflame.classes.classes.impl.MinerClass;
-import com.arkflame.classes.classes.impl.RogueClass;
 import com.arkflame.classes.plugin.ClassPlayer;
 import com.arkflame.classes.plugin.ClassesEffect;
+import com.arkflame.classes.utils.ArmorSet;
+import com.arkflame.classes.utils.ConfigUtil;
+import com.arkflame.classes.utils.Materials;
 import com.arkflame.classes.utils.Potions;
 
-public abstract class EquipableClass {
-  public static final EquipableClass ARCHER = new ArcherClass();
-  public static final EquipableClass BARD = new BardClass();
-  public static final EquipableClass DIAMOND = new DiamondClass();
-  public static final EquipableClass MINER = new MinerClass();
-  public static final EquipableClass ROGUE = new RogueClass();
+public class EquipableClass {
+  private static Collection<EquipableClass> classes = ConcurrentHashMap.newKeySet();
 
   public static EquipableClass getArmor(Player player) {
-    PlayerInventory inventory = player.getInventory();
-    ItemStack helmetItem = inventory.getHelmet();
-    ItemStack chestplateItem = inventory.getChestplate();
-    ItemStack leggingsItem = inventory.getLeggings();
-    ItemStack bootsItem = inventory.getBoots();
-    if (helmetItem == null || chestplateItem == null || leggingsItem == null || bootsItem == null) {
-      return null;
+    for (EquipableClass cls : classes) {
+      if (cls.armorMatches(player)) {
+        return cls;
+      }
     }
-
-    Material helmet = helmetItem.getType();
-    Material chestplate = chestplateItem.getType();
-    Material leggings = leggingsItem.getType();
-    Material boots = bootsItem.getType();
-    // Check if all armor pieces start with the same material type
-    if (armorMatches("GOLD", helmet, chestplate, leggings, boots))
-      return EquipableClass.BARD;
-    if (armorMatches("LEATHER", helmet, chestplate, leggings, boots))
-      return EquipableClass.ARCHER;
-    if (armorMatches("CHAINMAIL", helmet, chestplate, leggings, boots))
-      return EquipableClass.ROGUE;
-    if (armorMatches("IRON", helmet, chestplate, leggings, boots))
-      return EquipableClass.MINER;
-    if (armorMatches("DIAMOND", helmet, chestplate, leggings, boots))
-      return EquipableClass.DIAMOND;
-
     return null;
   }
 
-  // Helper method to check if all armor pieces match the specified material type
-  private static boolean armorMatches(String materialPrefix, Material... materials) {
-    for (Material material : materials) {
-      if (!material.name().startsWith(materialPrefix)) {
-        return false;
+  public static void loadClasses(ConfigUtil configUtil) {
+    File file = new File(MineClasses.getInstance().getDataFolder(), "classes.yml");
+    configUtil.copyResource("classes.yml", file);
+    YamlConfiguration cfg = configUtil.loadConfig(file);
+    ConfigurationSection classesSec = cfg.getConfigurationSection("classes");
+    if (classesSec == null)
+      return;
+
+    for (String className : classesSec.getKeys(false)) {
+      ConfigurationSection def = classesSec.getConfigurationSection(className);
+
+      // 1) simple flags
+      boolean usesEnergy = def.getBoolean("usesEnergy");
+      boolean applyNearby = def.getBoolean("applyNearby");
+      int cooldown = def.getInt("cooldown", 0);
+      boolean isMiner = def.getBoolean("miner");
+      boolean isArcher = def.getBoolean("archer");
+      boolean isRogue = def.getBoolean("rogue");
+
+      // 2) armor
+      ArmorSet armor = null;
+      ConfigurationSection armorSec = def.getConfigurationSection("armor");
+      if (armorSec != null) {
+        armor = new ArmorSet(
+            Materials.get(armorSec.getString("helmet")),
+            Materials.get(armorSec.getString("chestplate")),
+            Materials.get(armorSec.getString("leggings")),
+            Materials.get(armorSec.getString("boots")));
       }
+
+      // 3) passive effects
+      List<PotionEffect> passive = new ArrayList<>();
+      for (Map<?, ?> m : def.getMapList("passiveEffects")) {
+        passive.add(Potions.newPotionEffect(
+            (String) m.get("type"),
+            (Integer) m.get("duration"),
+            (Integer) m.get("amplifier")));
+      }
+
+      // 4) active effects
+      Map<Material, ClassesEffect> active = new EnumMap<>(Material.class);
+      ConfigurationSection actSec = def.getConfigurationSection("activeEffects");
+      if (actSec != null)
+        for (String mat : actSec.getKeys(false)) {
+          ConfigurationSection e = actSec.getConfigurationSection(mat);
+          ConfigurationSection eff = e.getConfigurationSection("effect");
+          active.put(Materials.get(mat),
+              new ClassesEffect(
+                  e.getString("key"),
+                  e.getInt("energy"),
+                  Potions.newPotionEffect(
+                      eff.getString("type"),
+                      eff.getInt("duration"),
+                      eff.getInt("amplifier"))));
+        }
+
+      // 5) held‐item effects
+      Map<Material, PotionEffect> held = new EnumMap<>(Material.class);
+      ConfigurationSection heldSec = def.getConfigurationSection("heldItemEffects");
+      if (heldSec != null)
+        for (String mat : heldSec.getKeys(false)) {
+          ConfigurationSection h = heldSec.getConfigurationSection(mat);
+          held.put(Materials.get(mat),
+              Potions.newPotionEffect(
+                  h.getString("type"),
+                  h.getInt("duration"),
+                  h.getInt("amplifier")));
+        }
+
+      // 6) finally, instantiate via your factory:
+      EquipableClass cls = new EquipableClass(
+          className, usesEnergy, applyNearby, cooldown,
+          armor, passive, active, held, isArcher, isRogue, isMiner);
+      classes.add(cls);
     }
-    return true;
   }
 
   protected final Collection<PotionEffect> passiveEffects = ConcurrentHashMap.newKeySet();
@@ -74,6 +119,47 @@ public abstract class EquipableClass {
   protected final Map<Material, PotionEffect> heldItemEffects = new EnumMap<>(Material.class);
   protected boolean usesEnergy = false; // Use energy for the effect
   protected boolean applyNearby = false; // Apply effect to nearby players
+  protected String name = "Unknown";
+  protected int cooldown = 0;
+  protected ArmorSet armor = null;
+  protected boolean isArcher = false;
+  protected boolean isRogue = false;
+  protected boolean isMiner = false;
+
+  public EquipableClass(String className, boolean usesEnergy, boolean applyNearby, int cooldown, ArmorSet armor,
+      List<PotionEffect> passive, Map<Material, ClassesEffect> active, Map<Material, PotionEffect> held,
+      boolean isArcher, boolean isRogue, boolean isMiner) {
+    this.name = className;
+    this.usesEnergy = usesEnergy;
+    this.applyNearby = applyNearby;
+    this.cooldown = cooldown;
+    this.armor = armor;
+    this.passiveEffects.addAll(passive);
+    this.activeEffects.putAll(active);
+    this.heldItemEffects.putAll(held);
+    this.isArcher = isArcher;
+    this.isRogue = isRogue;
+    this.isMiner = isMiner;
+  }
+
+  public boolean armorMatches(Player player) {
+    if (armor != null) {
+      if (player.getInventory().getHelmet() != null
+          && player.getInventory().getHelmet().getType() == armor.getHelmet()) {
+        if (player.getInventory().getChestplate() != null
+            && player.getInventory().getChestplate().getType() == armor.getChestplate()) {
+          if (player.getInventory().getLeggings() != null
+              && player.getInventory().getLeggings().getType() == armor.getLeggings()) {
+            if (player.getInventory().getBoots() != null
+                && player.getInventory().getBoots().getType() == armor.getBoots()) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
 
   public Collection<PotionEffect> getPassiveEffects() {
     return passiveEffects;
@@ -100,7 +186,7 @@ public abstract class EquipableClass {
   }
 
   public String getName() {
-    return "Unknown";
+    return name;
   }
 
   public String toString() {
@@ -108,7 +194,23 @@ public abstract class EquipableClass {
   }
 
   public int getCooldown() {
-    return 40000;
+    return cooldown;
+  }
+
+  public ArmorSet getArmor() {
+    return armor;
+  }
+
+  public boolean isArcher() {
+    return isArcher;
+  }
+
+  public boolean isRogue() {
+    return isRogue;
+  }
+
+  public boolean isMiner() {
+    return isMiner;
   }
 
   public void onInteract(PlayerInteractEvent event) {

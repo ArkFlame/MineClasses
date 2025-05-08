@@ -7,6 +7,8 @@ activated_effect_energy: "&aYou have activated the &b%effect%&a effect! You have
 on_cooldown: "&cWait &b%cooldown%&c seconds to use again."
 not_enough_energy: "&cYou don't have enough energy. You need &b%energy_required%&c more energy."
 
+backstab: "&aYou backstabbed &b%target%&a for &c%damage%♥"
+
 effects_speed: "Speed"
 effects_jump: "Jump"
 effects_invisibility: "Invisibility"

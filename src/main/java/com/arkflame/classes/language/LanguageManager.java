@@ -15,8 +15,7 @@ public class LanguageManager {
 
   public LanguageManager(String dataFolder, ConfigUtil configUtil) {
     String[] premadeLocales = { "en", "es" };
-    String localeFolderRaw = String.valueOf(dataFolder) + "/locales/";
-    File folder = new File(localeFolderRaw);
+    File folder = new File(dataFolder, "locales");
     if (!folder.exists())
       folder.mkdir();
     byte b;

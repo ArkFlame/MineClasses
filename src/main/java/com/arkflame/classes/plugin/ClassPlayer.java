@@ -160,7 +160,7 @@ public class ClassPlayer {
       for (PotionEffect potionEffect : this.classType.getPassiveEffects()) {
         Potions.removePotionEffect(player, potionEffect.getType());
       }
-      if (this.classType == EquipableClass.MINER)
+      if (this.classType.isMiner())
         Potions.removePotionEffect(player, "INVISIBILITY");
     }
   }

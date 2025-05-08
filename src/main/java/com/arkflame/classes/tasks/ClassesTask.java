@@ -47,7 +47,7 @@ public class ClassesTask implements Runnable {
           } else {
             if (energy > 0)
               classPlayer.addEnergy(-energy);
-            if (newClassType == EquipableClass.MINER)
+            if (newClassType.isMiner())
               if (player.getLocation().getY() <= 50) {
                 classPlayer.givePotionEffect(Potions.newPotionEffect("INVISIBILITY", 1200, 0));
                 classPlayer.setInvisible(true);

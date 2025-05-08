@@ -35,7 +35,8 @@ public class EntityShootBowListener implements Listener {
       if (livingEntity instanceof Player) {
         Player player = (Player)livingEntity;
         ClassPlayer classPlayer = this.classPlayerManager.get(player);
-        if (classPlayer.getClassType() == EquipableClass.ARCHER) {
+        EquipableClass classType = classPlayer.getClassType();
+        if (classType != null && classType.isArcher()) {
           boolean chance = (Math.random() > 0.9D);
           if (chance) {
             PlayerInventory playerInventory = player.getInventory();

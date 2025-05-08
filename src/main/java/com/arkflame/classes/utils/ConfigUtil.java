@@ -50,8 +50,9 @@ public class ConfigUtil {
     }
 
     public void copyResource(String resourcePath, File targetFile) {
-        if (targetFile.exists())
+        if (targetFile.exists()) {
             return;
+        }
 
         try (InputStream inputStream = plugin.getResource(resourcePath)) {
             if (inputStream == null) {
