@@ -96,4 +96,12 @@ public class MineClasses extends JavaPlugin {
       Bukkit.getScheduler().runTask(MineClasses.getInstance(), task);
     }
   }
+
+  public static void runAsync(Runnable runnable) {
+    if (Bukkit.isPrimaryThread()) {
+      Bukkit.getScheduler().runTaskAsynchronously(MineClasses.getInstance(), runnable);
+    } else {
+      runnable.run();
+    }
+  }
 }
