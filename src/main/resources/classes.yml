@@ -3,7 +3,7 @@ classes:
     # no energy cost, no AoE
     usesEnergy: false
     applyNearby: false
-    archer: true # Tags players and increases arrow damage
+    archer: true # Tags players (more damage), increased arrow damage, random triple shots
     cooldown: 40000 # milliseconds
 
     armor:

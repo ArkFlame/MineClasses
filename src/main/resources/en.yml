@@ -8,6 +8,7 @@ on_cooldown: "&cWait &b%cooldown%&c seconds to use again."
 not_enough_energy: "&cYou don't have enough energy. You need &b%energy_required%&c more energy."
 
 backstab: "&aYou backstabbed &b%target%&a for &c%damage%♥"
+archer_tag: "&aYou've been archer tagged &e%time% seconds&a by &b%damager%&a!"
 
 effects_speed: "Speed"
 effects_jump: "Jump"

@@ -89,23 +89,28 @@ public class ClassPlayer {
     return (cooldown - (System.currentTimeMillis() - this.lastSpellTime));
   }
 
+  /*
+   * Give potion effect only if its better (and save last one)
+   */
   public void givePotionEffect(PotionEffect effect) {
-    int effectDuration = effect.getDuration();
-    if (effectDuration > 0) {
-      PotionEffectType effectType = effect.getType();
-      PotionEffect effect1 = Potions.getPotionEffect(this.player, effectType);
-      if (effect1 != null) {
-        int effectAmplifier = effect.getAmplifier();
-        int effectAmplifier1 = effect1.getAmplifier();
-        if (effectAmplifier1 < effectAmplifier) {
-          Potions.removePotionEffect(player, effectType);
-          addPendingEffect(effect1);
-        } else if (effectAmplifier1 == effectAmplifier && effect1.getDuration() < effectDuration) {
-          Potions.removePotionEffect(player, effectType);
+    MineClasses.runSync(() -> {
+      int effectDuration = effect.getDuration();
+      if (effectDuration > 0) {
+        PotionEffectType effectType = effect.getType();
+        PotionEffect effect1 = Potions.getPotionEffect(this.player, effectType);
+        if (effect1 != null) {
+          int effectAmplifier = effect.getAmplifier();
+          int effectAmplifier1 = effect1.getAmplifier();
+          if (effectAmplifier1 < effectAmplifier) {
+            Potions.removePotionEffect(player, effectType);
+            addPendingEffect(effect1);
+          } else if (effectAmplifier1 == effectAmplifier && effect1.getDuration() < effectDuration) {
+            Potions.removePotionEffect(player, effectType);
+          }
         }
+        Potions.addPotionEffect(player, effect);
       }
-      Potions.addPotionEffect(player, effect);
-    }
+    });
   }
 
   private void addPendingEffect(PotionEffect effect) {

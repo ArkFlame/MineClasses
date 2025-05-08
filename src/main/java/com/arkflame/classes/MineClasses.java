@@ -89,7 +89,7 @@ public class MineClasses extends JavaPlugin {
     return null;
   }
 
-  public static void runTask(Runnable task) {
+  public static void runSync(Runnable task) {
     if (Bukkit.isPrimaryThread()) {
       task.run();
     } else {

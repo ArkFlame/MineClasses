@@ -10,7 +10,7 @@ public class Potions {
   public static PotionEffect getPotionEffect(Player player, PotionEffectType potionEffectType) {
     if (potionEffectType != null) {
       if (player.hasPotionEffect(potionEffectType)) {
-        for (PotionEffect potionEffect : player.getActivePotionEffects().toArray(new PotionEffect[0])) {
+        for (PotionEffect potionEffect : player.getActivePotionEffects()) {
           if (potionEffect.getType() == potionEffectType) {
             return potionEffect;
           }
@@ -41,7 +41,7 @@ public class Potions {
   }
 
   public static void removePotionEffect(Player player, PotionEffectType potionEffectType) {
-    MineClasses.runTask(() -> player.removePotionEffect(potionEffectType));
+    MineClasses.runSync(() -> player.removePotionEffect(potionEffectType));
   }
 
   public static void removePotionEffect(Player player, String name) {
@@ -49,7 +49,7 @@ public class Potions {
   }
 
   public static void addPotionEffect(Player player, PotionEffect potionEffect) {
-    MineClasses.runTask(() -> player.addPotionEffect(potionEffect));
+    MineClasses.runSync(() -> player.addPotionEffect(potionEffect));
   }
 
   public static boolean isPotionEffectType(PotionEffectType potionEffectType, String... compare) {

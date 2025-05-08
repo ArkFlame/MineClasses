@@ -52,9 +52,8 @@ public class EntityDamageByEntityListener implements Listener {
               ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
               Potions.removePotionEffect(damagedPlayer, "INVISIBILITY");
               damagedClassPlayer.setLastArcherTagTime();
-              damagedPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                  "&cFuiste tageado por &e10 segundos&c por &b" + damagerPlayer.getDisplayName() +
-                      "&c!"));
+              MineClasses.getInstance().getLanguageManager().sendMessage(damagedPlayer, "archer_tag", "%time%",
+                  10, "%damager%", damagerPlayer.getDisplayName());
             }
             event.setDamage(event.getDamage() * 1.25D);
           }

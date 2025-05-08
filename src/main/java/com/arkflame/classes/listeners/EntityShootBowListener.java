@@ -42,13 +42,13 @@ public class EntityShootBowListener implements Listener {
             PlayerInventory playerInventory = player.getInventory();
             if (consumeArrows(playerInventory, 2)) {
               Arrow arrow = (Arrow)projectile;
-              Location arrowLocation = arrow.getLocation();
+              Location arrowLocation = arrow.getLocation().clone();
               Vector arrowVelocity = arrow.getVelocity();
               boolean arrowIsCritical = arrow.isCritical();
               Arrow arrow1 = (Arrow)player.launchProjectile(Arrow.class);
               Arrow arrow2 = (Arrow)player.launchProjectile(Arrow.class);
-              arrow1.teleport(arrowLocation.add(-0.5D, 0.0D, -0.5D));
-              arrow2.teleport(arrowLocation.add(1.0D, 0.0D, 1.0D));
+              arrow1.teleport(arrowLocation.add(-1D, 0.0D, -1D));
+              arrow2.teleport(arrowLocation.add(2.0D, 0.0D, 2.0D));
               arrow1.setVelocity(arrowVelocity);
               arrow2.setVelocity(arrowVelocity);
               arrow1.setCritical(arrowIsCritical);
