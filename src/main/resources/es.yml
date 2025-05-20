@@ -1,3 +1,5 @@
+damage_boost: "&aDebido a tu rango, tienes un &b+%boost%%&a de daño!"
+
 class_activated: "&aHas activado la clase &b%class%&a!"
 used_energy: "&c-%energy% energia"
 

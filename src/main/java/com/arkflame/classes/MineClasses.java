@@ -1,5 +1,8 @@
 package com.arkflame.classes;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandExecutor;
@@ -52,6 +55,7 @@ public class MineClasses extends JavaPlugin {
   }
 
   public void onEnable() {
+    saveDefaultConfig();
     setInstance(this);
     setClassPlayerManager(new ClassPlayerManager());
     Server server = getServer();
@@ -103,5 +107,16 @@ public class MineClasses extends JavaPlugin {
     } else {
       runnable.run();
     }
+  }
+
+  public double getDamageBoost(Player damagerPlayer) {
+    List<Integer> damageBoosts = getConfig().getIntegerList("damage-boosts");
+    Collections.sort(damageBoosts, Collections.reverseOrder());
+    for (int damageBoost : damageBoosts) {
+      if (damagerPlayer.hasPermission("mineclasses.damageboost." + damageBoost)) {
+        return damageBoost / 100.0D;
+      }
+    }
+    return 0;
   }
 }

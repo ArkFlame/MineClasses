@@ -1,0 +1,7 @@
+# Use permission: mineclasses.damageboost.x
+damage-boosts:
+  - 5
+  - 10
+  - 15
+  - 20
+  - 25

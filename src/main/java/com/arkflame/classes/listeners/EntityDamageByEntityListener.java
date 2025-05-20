@@ -44,8 +44,11 @@ public class EntityDamageByEntityListener implements Listener {
       if (classPlayer != null) {
         EntityDamageEvent.DamageCause damageCause = event.getCause();
         Entity damaged = event.getEntity();
+        EquipableClass classType = classPlayer.getClassType();
+        if (classType != null) {
+            event.setDamage(event.getDamage() + event.getDamage() * MineClasses.getInstance().getDamageBoost(damagerPlayer));
+        }
         if (damageCause == EntityDamageEvent.DamageCause.PROJECTILE) {
-          EquipableClass classType = classPlayer.getClassType();
           if (classType != null && classType.isArcher()) {
             if (damaged instanceof Player) {
               Player damagedPlayer = (Player) damaged;
@@ -65,7 +68,6 @@ public class EntityDamageByEntityListener implements Listener {
               event.setDamage(event.getDamage() * 1.25D);
             }
           }
-          EquipableClass classType = classPlayer.getClassType();
           if (classType != null && classType.isRogue()) { // Backstab
             Location tLoc = damaged.getLocation();
             Vector toAttacker = damager.getLocation().toVector()
