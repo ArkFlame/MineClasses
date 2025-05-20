@@ -21,10 +21,5 @@ public class PlayerJoinListener implements Listener {
     Player player = event.getPlayer();
     ClassPlayer classPlayer = this.classPlayerManager.get(player);
     classPlayer.clearClassEffects();
-    double damageBoost = MineClasses.getInstance().getDamageBoost(player);
-    if (damageBoost > 0.0D) {
-      player.sendMessage(MineClasses.getInstance().getLanguageManager().getMessage(player, "damage_boost", "%boost%",
-          (int) (damageBoost * 100.0D)));
-    }
   }
 }

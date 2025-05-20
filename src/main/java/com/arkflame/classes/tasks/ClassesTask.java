@@ -31,8 +31,16 @@ public class ClassesTask implements Runnable {
           classPlayer.clearPendingEffects();
           classPlayer.clearClassEffects();
           classPlayer.setClassType(newClassType);
-          if (newClassType != null)
-            MineClasses.getInstance().getLanguageManager().sendMessage(player, "class_activated", "%class%", newClassType.getName());
+          if (newClassType != null) {
+            MineClasses.getInstance().getLanguageManager().sendMessage(player, "class_activated", "%class%",
+                newClassType.getName());
+            double damageBoost = MineClasses.getInstance().getDamageBoost(player);
+            if (damageBoost > 0.0D) {
+              player.sendMessage(
+                  MineClasses.getInstance().getLanguageManager().getMessage(player, "damage_boost", "%boost%",
+                      (int) (damageBoost * 100.0D)));
+            }
+          }
         }
         if (newClassType != null) {
           for (PotionEffect passiveEffect : newClassType.getPassiveEffects()) {
