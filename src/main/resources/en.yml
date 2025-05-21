@@ -23,3 +23,63 @@ effects_strength: "Strength"
 effects_wither: "Wither"
 effects_poison: "Poison"
 effects_weakness: "Weakness"
+
+help: |-
+  &bMineClasses &7v%version%
+  &7--------------------
+  &b/bard &7- &aBard class information
+  &b/archer &7- &aArcher class information
+  &b/rogue &7- &aRogue class information
+  &b/miner &7- &aMiner class information
+
+bard: |-
+  &6Class: &eBard
+  &7Armor: &6Golden Armor
+  &7Passive Effects:
+  &a- Speed I
+  &a- Regeneration I
+  &a- Resistance II
+  &7Active Effects (Consumes Energy):
+  &eSUGAR&7: Speed II
+  &eFEATHER&7: Jump Boost V
+  &eGHAST_TEAR&7: Regeneration II
+  &eIRON_INGOT&7: Resistance III
+  &eBLAZE_POWDER&7: Strength II
+  &eGOLDEN_CARROT&7: Night Vision
+  &eMAGMA_CREAM&7: Fire Resistance
+  &eSPIDER_EYE&7: Wither
+  &eRED_MUSHROOM&7: Poison
+  &eBROWN_MUSHROOM&7: Weakness
+  &eINK_SACK&7: Invisibility
+
+archer: |-
+  &6Class: &eArcher
+  &7Armor: &6Leather Armor
+  &7Passive Effects:
+  &a- Speed III
+  &a- Resistance III
+  &7Active Effects:
+  &eSUGAR&7: Speed V
+  &eFEATHER&7: Jump Boost V
+  &7Special: Tags enemies for increased arrow damage. Chance of triple arrow shots.
+
+rogue: |-
+  &6Class: &eRogue
+  &7Armor: &6Chainmail Armor
+  &7Passive Effects:
+  &a- Speed III
+  &a- Jump Boost III
+  &a- Resistance II
+  &7Active Effects:
+  &eSUGAR&7: Speed V
+  &eFEATHER&7: Jump Boost V
+  &7Special: Backstab for high damage using golden swords.
+
+miner: |-
+  &6Class: &eMiner
+  &7Armor: &6Iron Armor
+  &7Passive Effects:
+  &a- Fire Resistance II
+  &a- Haste II
+  &a- Night Vision
+  &7Special: Becomes invisible while underground.

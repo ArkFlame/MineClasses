@@ -1,4 +1,4 @@
-package com.arkflame.classes.commandexecutors;
+package com.arkflame.classes.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,23 +7,16 @@ import com.arkflame.classes.language.ClassesLanguage;
 import com.arkflame.classes.language.LanguageManager;
 import com.arkflame.classes.utils.Players;
 
-public class ClassesCommandExecutor implements CommandExecutor {
+public class MinerCommand implements CommandExecutor {
   private final LanguageManager languageManager;
-  
-  private String version;
-  
-  public ClassesCommandExecutor(LanguageManager languageManager, String version) {
+
+  public MinerCommand(LanguageManager languageManager) {
     this.languageManager = languageManager;
-    this.version = version;
   }
-  
+
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     ClassesLanguage language = this.languageManager.getLanguage(Players.getLocale(sender));
-    if (args.length > 0 && !args[0].equals("help")) {
-      sender.sendMessage(language.getEntry("unknown_command").replace("%version%", this.version));
-    } else {
-      sender.sendMessage(language.getEntry("help").replace("%version%", this.version));
-    } 
+    sender.sendMessage(language.getEntry("miner"));
     return true;
   }
 }

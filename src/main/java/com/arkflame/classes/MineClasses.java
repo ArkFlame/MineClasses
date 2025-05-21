@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -13,7 +14,11 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.arkflame.classes.classes.EquipableClass;
-import com.arkflame.classes.commandexecutors.ClassesCommandExecutor;
+import com.arkflame.classes.commands.ArcherCommand;
+import com.arkflame.classes.commands.BardCommand;
+import com.arkflame.classes.commands.ClassesCommand;
+import com.arkflame.classes.commands.MinerCommand;
+import com.arkflame.classes.commands.RogueCommand;
 import com.arkflame.classes.hooks.PlaceholderAPIHook;
 import com.arkflame.classes.hooks.MineClansHook;
 import com.arkflame.classes.language.LanguageManager;
@@ -70,13 +75,25 @@ public class MineClasses extends JavaPlugin {
     pluginManager.registerEvents((Listener) new PlayerItemHeldListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new PlayerJoinListener(classPlayerManager), (Plugin) this);
     pluginManager.registerEvents((Listener) new PlayerQuitListener(classPlayerManager), (Plugin) this);
-    getCommand("classes")
-        .setExecutor((CommandExecutor) new ClassesCommandExecutor(languageManager, getDescription().getVersion()));
+    registerCommand("classes", new ClassesCommand(languageManager, getDescription().getVersion()));
+    registerCommand("archer", new ArcherCommand(languageManager));
+    registerCommand("bard", new BardCommand(languageManager));
+    registerCommand("rogue", new RogueCommand(languageManager));
+    registerCommand("miner", new MinerCommand(languageManager));
     if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
       this.classesPlaceholders = new PlaceholderAPIHook((Plugin) this, classPlayerManager);
       this.classesPlaceholders.register();
     }
     Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassesTask(server, classPlayerManager), 20L, 20L);
+  }
+
+  private void registerCommand(String cmd, CommandExecutor executor) {
+    PluginCommand command = getCommand(cmd);
+    if (command != null) {
+      command.setExecutor(executor);
+    } else {
+      getLogger().warning("Command " + cmd + " not found in plugin.yml");
+    }
   }
 
   public void onDisable() {
