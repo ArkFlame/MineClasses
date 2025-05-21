@@ -40,17 +40,12 @@ bard: |-
   &a- Regeneración I
   &a- Resistencia II
   &7Efectos Activos (Consume Energía):
-  &eSUGAR&7: Velocidad II
-  &eFEATHER&7: Salto V
-  &eGHAST_TEAR&7: Regeneración II
-  &eIRON_INGOT&7: Resistencia III
-  &eBLAZE_POWDER&7: Fuerza II
-  &eGOLDEN_CARROT&7: Visión Nocturna
-  &eMAGMA_CREAM&7: Resistencia al Fuego
-  &eSPIDER_EYE&7: Marchitamiento
-  &eRED_MUSHROOM&7: Veneno
-  &eBROWN_MUSHROOM&7: Debilidad
-  &eINK_SACK&7: Invisibilidad
+  &eSUGAR&7: Velocidad II &eFEATHER&7: Salto V 
+  &eGHAST_TEAR&7: Regeneración II &eIRON_INGOT&7: Resistencia III 
+  &eBLAZE_POWDER&7: Fuerza II &eGOLDEN_CARROT&7: Visión Nocturna 
+  &eMAGMA_CREAM&7: Resistencia al Fuego &eSPIDER_EYE&7: Marchitamiento 
+  &eRED_MUSHROOM&7: Veneno &eBROWN_MUSHROOM&7: Debilidad &eINK_SACK&7: Invisibilidad
+  &dEspecial: &7Aplica efectos positivos/negativos a los jugadores cercanos.
 
 archer: |-
   &6Clase: &eArquero
@@ -61,7 +56,7 @@ archer: |-
   &7Efectos Activos:
   &eSUGAR&7: Velocidad V
   &eFEATHER&7: Salto V
-  &7Especial: Marca enemigos para daño aumentado con flechas. Posibilidad de disparo triple.
+  &dEspecial: &7Marca enemigos para daño aumentado con flechas. Posibilidad de disparo triple.
 
 rogue: |-
   &6Clase: &ePícaro
@@ -73,7 +68,7 @@ rogue: |-
   &7Efectos Activos:
   &eSUGAR&7: Velocidad V
   &eFEATHER&7: Salto V
-  &7Especial: Puñalada por la espalda con espadas de oro para daño elevado.
+  &dEspecial: &7Puñalada por la espalda con espadas de oro para daño elevado.
 
 miner: |-
   &6Clase: &eMinero
@@ -82,4 +77,4 @@ miner: |-
   &a- Resistencia al Fuego II
   &a- Prisa II
   &a- Visión Nocturna
-  &7Especial: Se vuelve invisible bajo tierra.
+  &dEspecial: &7Se vuelve invisible bajo tierra.

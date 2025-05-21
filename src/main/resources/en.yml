@@ -40,17 +40,12 @@ bard: |-
   &a- Regeneration I
   &a- Resistance II
   &7Active Effects (Consumes Energy):
-  &eSUGAR&7: Speed II
-  &eFEATHER&7: Jump Boost V
-  &eGHAST_TEAR&7: Regeneration II
-  &eIRON_INGOT&7: Resistance III
-  &eBLAZE_POWDER&7: Strength II
-  &eGOLDEN_CARROT&7: Night Vision
-  &eMAGMA_CREAM&7: Fire Resistance
-  &eSPIDER_EYE&7: Wither
-  &eRED_MUSHROOM&7: Poison
-  &eBROWN_MUSHROOM&7: Weakness
-  &eINK_SACK&7: Invisibility
+  &eSUGAR&7: Speed II &eFEATHER&7: Jump Boost V 
+  &eGHAST_TEAR&7: Regeneration II &eIRON_INGOT&7: Resistance III 
+  &eBLAZE_POWDER&7: Strength II &eGOLDEN_CARROT&7: Night Vision 
+  &eMAGMA_CREAM&7: Fire Resistance &eSPIDER_EYE&7: Wither 
+  &eBROWN_MUSHROOM&7: Weakness &eINK_SACK&7: Invisibility
+  &dSpecial: &7Applies positive/negative effects to nearby players.
 
 archer: |-
   &6Class: &eArcher
@@ -61,7 +56,7 @@ archer: |-
   &7Active Effects:
   &eSUGAR&7: Speed V
   &eFEATHER&7: Jump Boost V
-  &7Special: Tags enemies for increased arrow damage. Chance of triple arrow shots.
+  &dSpecial: &7Tags enemies for increased arrow damage. Chance of triple arrow shots.
 
 rogue: |-
   &6Class: &eRogue
@@ -73,7 +68,7 @@ rogue: |-
   &7Active Effects:
   &eSUGAR&7: Speed V
   &eFEATHER&7: Jump Boost V
-  &7Special: Backstab for high damage using golden swords.
+  &dSpecial: &7Backstab for high damage using golden swords.
 
 miner: |-
   &6Class: &eMiner
@@ -82,4 +77,4 @@ miner: |-
   &a- Fire Resistance II
   &a- Haste II
   &a- Night Vision
-  &7Special: Becomes invisible while underground.
+  &dSpecial: &7Becomes invisible while underground.
