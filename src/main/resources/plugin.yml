@@ -9,4 +9,13 @@ api-version: 1.13
 softdepend: [PlaceholderAPI, MineClans]
 commands:
   classes:
-    aliases: [bard]
+    description: "Check information about the classes"
+  bard:
+    description: "Check information about the Bard class"
+  archer:
+    description: "Check information about the Archer class"
+  rogue:
+    description: "Check information about the Rogue class"
+  miner:
+    description: "Check information about the Miner class"
+  
