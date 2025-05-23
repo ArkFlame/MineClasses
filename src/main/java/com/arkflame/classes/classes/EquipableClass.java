@@ -253,10 +253,15 @@ public class EquipableClass {
     }
 
     int newAmount = item.getAmount() - 1;
-    item.setAmount(newAmount); // Consume item
-    if (newAmount == 0) {
-      item.setType(Material.AIR);
+    item.setAmount(newAmount);
+    try {
+      if (event.getClass().getMethod("getHand") != null) { // 1.9+
+        player.getInventory().setItem(event.getHand(), item);
+      }
+    } catch (NoSuchMethodException e) {
+      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), item);
     }
+
     cp.setLastSpellTime(); // Cooldown
 
     if (usesEnergy) {
