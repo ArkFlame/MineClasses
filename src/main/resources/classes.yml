@@ -42,10 +42,18 @@ classes:
     cooldown: 5000
 
     armor:
-      helmet: GOLDEN_HELMET
-      chestplate: GOLDEN_CHESTPLATE
-      leggings: GOLDEN_LEGGINGS
-      boots: GOLDEN_BOOTS
+      helmet: 
+        - GOLDEN_HELMET
+        - GOLD_HELMET
+      chestplate:
+        - GOLDEN_CHESTPLATE
+        - GOLD_CHESTPLATE
+      leggings:
+        - GOLDEN_LEGGINGS
+        - GOLD_LEGGINGS
+      boots:
+        - GOLDEN_BOOTS
+        - GOLD_BOOTS
 
     passiveEffects:
       - type: SPEED
@@ -95,6 +103,13 @@ classes:
           duration: 100
           amplifier: 1
       GOLDEN_CARROT:
+        key: effects_night_vision
+        energy: 20
+        effect:
+          type: NIGHT_VISION
+          duration: 500
+          amplifier: 1
+      GOLD_CARROT:
         key: effects_night_vision
         energy: 20
         effect:
@@ -155,6 +170,10 @@ classes:
         duration: 100
         amplifier: 0
       GOLDEN_CARROT:
+        type: NIGHT_VISION
+        duration: 100
+        amplifier: 0
+      GOLD_CARROT:
         type: NIGHT_VISION
         duration: 100
         amplifier: 0

@@ -3,6 +3,7 @@ package com.arkflame.classes.classes;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -61,10 +62,10 @@ public class EquipableClass {
       ConfigurationSection armorSec = def.getConfigurationSection("armor");
       if (armorSec != null) {
         armor = new ArmorSet(
-            Materials.get(armorSec.getString("helmet")),
-            Materials.get(armorSec.getString("chestplate")),
-            Materials.get(armorSec.getString("leggings")),
-            Materials.get(armorSec.getString("boots")));
+            Materials.get(getArmorPiece(armorSec, "helmet")),
+            Materials.get(getArmorPiece(armorSec, "chestplate")),
+            Materials.get(getArmorPiece(armorSec, "leggings")),
+            Materials.get(getArmorPiece(armorSec, "boots")));
       }
 
       // 3) passive effects
@@ -112,6 +113,17 @@ public class EquipableClass {
           armor, passive, active, held, isArcher, isRogue, isMiner);
       classes.add(cls);
     }
+  }
+
+  private static List<String> getArmorPiece(ConfigurationSection armorSec, String pieceKey) {
+    if (armorSec.isString(pieceKey)) {
+      return Collections.singletonList(armorSec.getString(pieceKey));
+    } else {
+      if (armorSec.isList(pieceKey)) {
+        return armorSec.getStringList(pieceKey);
+      }
+    }
+    return null;
   }
 
   protected final Collection<PotionEffect> passiveEffects = ConcurrentHashMap.newKeySet();
@@ -240,7 +252,11 @@ public class EquipableClass {
       return;
     }
 
-    item.setAmount(item.getAmount() - 1); // Consume item
+    int newAmount = item.getAmount() - 1;
+    item.setAmount(newAmount); // Consume item
+    if (newAmount == 0) {
+      item.setType(Material.AIR);
+    }
     cp.setLastSpellTime(); // Cooldown
 
     if (usesEnergy) {
