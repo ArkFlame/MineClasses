@@ -136,4 +136,8 @@ public class MineClasses extends JavaPlugin {
     }
     return 0;
   }
+
+  public double getDamageCap() {
+    return getConfig().getDouble("damage-cap", 15);
+  }
 }

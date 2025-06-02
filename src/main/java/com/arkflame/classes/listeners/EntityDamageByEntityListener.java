@@ -49,6 +49,7 @@ public class EntityDamageByEntityListener implements Listener {
             event.setDamage(event.getDamage() + event.getDamage() * MineClasses.getInstance().getDamageBoost(damagerPlayer));
         }
         if (damageCause == EntityDamageEvent.DamageCause.PROJECTILE) {
+          // Archer tag
           if (classType != null && classType.isArcher()) {
             if (damaged instanceof Player) {
               Player damagedPlayer = (Player) damaged;
@@ -61,6 +62,7 @@ public class EntityDamageByEntityListener implements Listener {
             event.setDamage(event.getDamage() * 1.25D);
           }
         } else if (damageCause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+          // Archer tag bonus
           if (damaged instanceof Player) {
             Player damagedPlayer = (Player) damaged;
             ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
@@ -68,7 +70,8 @@ public class EntityDamageByEntityListener implements Listener {
               event.setDamage(event.getDamage() * 1.25D);
             }
           }
-          if (classType != null && classType.isRogue()) { // Backstab
+          // Backstab
+          if (classType != null && classType.isRogue()) {
             Location tLoc = damaged.getLocation();
             Vector toAttacker = damager.getLocation().toVector()
                 .subtract(tLoc.toVector())
@@ -88,6 +91,10 @@ public class EntityDamageByEntityListener implements Listener {
               }
             }
           }
+        }
+        // Damage cap
+        if (event.getDamage() > MineClasses.getInstance().getDamageCap()) {
+          event.setDamage(MineClasses.getInstance().getDamageCap());
         }
       }
     }

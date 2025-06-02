@@ -5,3 +5,6 @@ damage-boosts:
   - 15
   - 20
   - 25
+
+# All damage from player to player will be capped
+damage-cap: 15
