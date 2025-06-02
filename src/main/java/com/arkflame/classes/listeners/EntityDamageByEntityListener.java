@@ -1,7 +1,7 @@
 package com.arkflame.classes.listeners;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -31,10 +31,12 @@ public class EntityDamageByEntityListener implements Listener {
 
   @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
   public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+    Projectile projectile = null;
     Entity damager = event.getDamager();
     if (damager instanceof Projectile) {
       ProjectileSource shooter = ((Projectile) damager).getShooter();
       if (shooter instanceof Entity) {
+        projectile = (Projectile) damager;
         damager = (Entity) shooter;
       }
     }
@@ -50,7 +52,7 @@ public class EntityDamageByEntityListener implements Listener {
         }
         if (damageCause == EntityDamageEvent.DamageCause.PROJECTILE) {
           // Archer tag
-          if (classType != null && classType.isArcher()) {
+          if (classType != null && classType.isArcher() && projectile instanceof Arrow) {
             if (damaged instanceof Player) {
               Player damagedPlayer = (Player) damaged;
               ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
