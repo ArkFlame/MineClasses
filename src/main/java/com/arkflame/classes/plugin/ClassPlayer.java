@@ -1,8 +1,11 @@
 package com.arkflame.classes.plugin;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +19,7 @@ import com.arkflame.classes.utils.Potions;
 public class ClassPlayer {
   private final Player player;
 
-  private Collection<PotionEffect> pendingEffects = new HashSet<>();
+  private Map<PotionEffectType, PotionEffect> pendingEffects = new ConcurrentHashMap<>();
 
   private ItemStack heldItem = null;
 
@@ -94,42 +97,91 @@ public class ClassPlayer {
    */
   public void givePotionEffect(PotionEffect effect) {
     MineClasses.runSync(() -> {
-      int effectDuration = effect.getDuration();
-      if (effectDuration > 0) {
+      int newDuration = effect.getDuration();
+      if (newDuration > 0) {
         PotionEffectType effectType = effect.getType();
-        PotionEffect effect1 = Potions.getPotionEffect(this.player, effectType);
-        if (effect1 != null) {
-          int effectAmplifier = effect.getAmplifier();
-          int effectAmplifier1 = effect1.getAmplifier();
-          if (effectAmplifier1 < effectAmplifier) {
+        PotionEffect currentEffect = Potions.getPotionEffect(this.player, effectType);
+
+        if (currentEffect != null) {
+          int newAmplifier = effect.getAmplifier();
+          int currentAmplifier = currentEffect.getAmplifier();
+          int currentDuration = currentEffect.getDuration();
+
+          if (newAmplifier == currentAmplifier) {
+            // Same amplifier
+            if (newDuration > currentDuration) {
+              // More duration - replace without saving
+              Potions.removePotionEffect(player, effectType);
+              Potions.addPotionEffect(player, effect);
+            }
+            // If newDuration <= currentDuration, do nothing (don't apply new effect)
+
+          } else if (newAmplifier > currentAmplifier) {
+            // Higher amplifier - always apply and save old effect as pending
             Potions.removePotionEffect(player, effectType);
-            addPendingEffect(effect1);
-          } else if (effectAmplifier1 == effectAmplifier && effect1.getDuration() < effectDuration) {
-            Potions.removePotionEffect(player, effectType);
+            addPendingEffect(currentEffect);
+            Potions.addPotionEffect(player, effect);
+
+          } else {
+            // Lower amplifier - don't apply new effect, add it as pending
+            addPendingEffect(effect);
           }
+        } else {
+          // No current effect of this type - simply apply the new one
+          Potions.addPotionEffect(player, effect);
         }
-        Potions.addPotionEffect(player, effect);
       }
     });
   }
 
   private void addPendingEffect(PotionEffect effect) {
-    this.pendingEffects.add(effect);
+    // Don't add permanent effects (duration -1 or Integer.MAX_VALUE) as pending
+    if (effect.getDuration() > 0 && effect.getDuration() != Integer.MAX_VALUE) {
+      // Only add effects with less than 10 minutes (12000 ticks) to prevent bugs
+      if (effect.getDuration() < 12000) {
+        this.pendingEffects.put(effect.getType(), effect);
+      }
+    }
   }
 
   public void givePendingEffects() {
     if (!this.pendingEffects.isEmpty()) {
-      Iterator<PotionEffect> pendingEffectsIterator = this.pendingEffects.iterator();
+      Iterator<PotionEffect> pendingEffectsIterator = this.pendingEffects.values().iterator();
       while (pendingEffectsIterator.hasNext()) {
         PotionEffect effect = pendingEffectsIterator.next();
         pendingEffectsIterator.remove();
-        Potions.addPotionEffect(player, effect);
+
+        // Check if the effect is still valid (hasn't expired)
+        if (effect.getDuration() > 0) {
+          PotionEffect currentEffect = Potions.getPotionEffect(this.player, effect.getType());
+
+          // Only apply pending effect if there's no current effect or if pending has
+          // higher/equal amplifier
+          if (currentEffect == null || effect.getAmplifier() >= currentEffect.getAmplifier()) {
+            if (currentEffect != null) {
+              Potions.removePotionEffect(player, effect.getType());
+            }
+            Potions.addPotionEffect(player, effect);
+          }
+        }
       }
     }
   }
 
   public void clearPendingEffects() {
     this.pendingEffects.clear();
+  }
+
+  // Helper method to check pending effects count for debugging
+  public int getPendingEffectsCount() {
+    return this.pendingEffects.size();
+  }
+
+  // Helper method to get pending effects of a specific type
+  public List<PotionEffect> getPendingEffectsOfType(PotionEffectType type) {
+    return this.pendingEffects.values().stream()
+        .filter(effect -> effect.getType().equals(type))
+        .collect(Collectors.toList());
   }
 
   public void giveNearPlayersEffect(PotionEffect potionEffect, int radius) {
