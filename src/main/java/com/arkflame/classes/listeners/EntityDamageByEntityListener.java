@@ -33,6 +33,10 @@ public class EntityDamageByEntityListener implements Listener {
   public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
     Projectile projectile = null;
     Entity damager = event.getDamager();
+    Entity damaged = event.getEntity();
+    if (!(damaged instanceof Player)) {
+      return;
+    }
     if (damager instanceof Projectile) {
       ProjectileSource shooter = ((Projectile) damager).getShooter();
       if (shooter instanceof Entity) {
@@ -40,40 +44,48 @@ public class EntityDamageByEntityListener implements Listener {
         damager = (Entity) shooter;
       }
     }
-    if (damager instanceof Player) {
-      Player damagerPlayer = (Player) damager;
-      ClassPlayer classPlayer = this.classPlayerManager.get(damagerPlayer);
-      if (classPlayer != null) {
-        EntityDamageEvent.DamageCause damageCause = event.getCause();
-        Entity damaged = event.getEntity();
-        EquipableClass classType = classPlayer.getClassType();
-        if (classType != null) {
-            event.setDamage(event.getDamage() + event.getDamage() * MineClasses.getInstance().getDamageBoost(damagerPlayer));
+    if (!(damager instanceof Player)) {
+      return;
+    }
+    Player damagedPlayer = (Player) damaged;
+    Player damagerPlayer = (Player) damager;
+    ClassPlayer classPlayer = this.classPlayerManager.get(damagerPlayer);
+          ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
+    if (classPlayer != null) {
+      EntityDamageEvent.DamageCause damageCause = event.getCause();
+      EquipableClass classType = classPlayer.getClassType();
+      // Damage boost
+      if (classType != null) {
+        event.setDamage(
+            event.getDamage() + event.getDamage() * MineClasses.getInstance().getDamageBoost(damagerPlayer));
+      }
+      // Damage cap
+      if (event.getDamage() > MineClasses.getInstance().getDamageCap()) {
+        event.setDamage(MineClasses.getInstance().getDamageCap());
+      }
+
+      if (damageCause == EntityDamageEvent.DamageCause.PROJECTILE) {
+        // Archer tag
+        if (classType != null && classType.isArcher() && projectile instanceof Arrow) {
+          Potions.removePotionEffect(damagedPlayer, "INVISIBILITY");
+          damagedClassPlayer.setLastArcherTagTime();
+          MineClasses.getInstance().getLanguageManager().sendMessage(damagedPlayer, "archer_tag", "%time%",
+              10, "%damager%", damagerPlayer.getDisplayName());
+          event.setDamage(event.getDamage() * 1.25D);
         }
-        if (damageCause == EntityDamageEvent.DamageCause.PROJECTILE) {
-          // Archer tag
-          if (classType != null && classType.isArcher() && projectile instanceof Arrow) {
-            if (damaged instanceof Player) {
-              Player damagedPlayer = (Player) damaged;
-              ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
-              Potions.removePotionEffect(damagedPlayer, "INVISIBILITY");
-              damagedClassPlayer.setLastArcherTagTime();
-              MineClasses.getInstance().getLanguageManager().sendMessage(damagedPlayer, "archer_tag", "%time%",
-                  10, "%damager%", damagerPlayer.getDisplayName());
-            }
-            event.setDamage(event.getDamage() * 1.25D);
+      } else if (damageCause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+        // Archer tag bonus damage
+        if (damagedClassPlayer.hasArcherTag()) {
+          event.setDamage(event.getDamage() * 1.25D);
+        }
+        // Backstab
+        if (classType != null && classType.isRogue()) {
+          if (damagedClassPlayer.hasBackstabCooldown()) {
+            // TODO: Show time left
+            return;
           }
-        } else if (damageCause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
-          // Archer tag bonus
-          if (damaged instanceof Player) {
-            Player damagedPlayer = (Player) damaged;
-            ClassPlayer damagedClassPlayer = this.classPlayerManager.get(damagedPlayer);
-            if (damagedClassPlayer.hasArcherTag()) {
-              event.setDamage(event.getDamage() * 1.25D);
-            }
-          }
-          // Backstab
-          if (classType != null && classType.isRogue()) {
+          ItemStack weapon = damagerPlayer.getInventory().getItem(damagerPlayer.getInventory().getHeldItemSlot());
+          if (weapon != null && weapon.getType() == Materials.get("GOLD_SWORD", "GOLDEN_SWORD")) {
             Location tLoc = damaged.getLocation();
             Vector toAttacker = damager.getLocation().toVector()
                 .subtract(tLoc.toVector())
@@ -82,21 +94,16 @@ public class EntityDamageByEntityListener implements Listener {
             double cos = tFacing.dot(toAttacker);
 
             if (cos < -0.8 && cos > -1.0) { // Behind enemy
-              ItemStack weapon = damagerPlayer.getInventory().getItem(damagerPlayer.getInventory().getHeldItemSlot());
-              if (weapon != null && weapon.getType() == Materials.get("GOLD_SWORD", "GOLDEN_SWORD")) {
-                double damage = event.getDamage() * 4;
-                event.setDamage(damage);
-                damagerPlayer.getInventory().setItem(damagerPlayer.getInventory().getHeldItemSlot(), null);
-                MineClasses.getInstance().getLanguageManager().sendMessage(damagerPlayer, "backstab", "%target%",
-                    damaged.getName(), "%damage%", damage);
-                Sounds.play(damagerPlayer, 1f, 1f, "ITEM_BREAK", "ENTITY_ITEM_BREAK");
-              }
+              double damage = event.getDamage() * 6;
+              event.setDamage(damage);
+              damagerPlayer.getInventory().setItem(damagerPlayer.getInventory().getHeldItemSlot(), null);
+              MineClasses.getInstance().getLanguageManager().sendMessage(damagerPlayer, "backstab", "%target%",
+                  damaged.getName(), "%damage%", String.format("%.1f", damage / 2));
+              Sounds.play(damagerPlayer, 1f, 1f, "ITEM_BREAK", "ENTITY_ITEM_BREAK");
+              damagedClassPlayer.updateBackstabCooldown();
+              // TODO: Give slowness II for 3s to damager
             }
           }
-        }
-        // Damage cap
-        if (event.getDamage() > MineClasses.getInstance().getDamageCap()) {
-          event.setDamage(MineClasses.getInstance().getDamageCap());
         }
       }
     }

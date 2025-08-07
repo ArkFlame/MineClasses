@@ -20,19 +20,17 @@ public class ClassPlayer {
   private final Player player;
 
   private Map<PotionEffectType, PotionEffect> pendingEffects = new ConcurrentHashMap<>();
-
   private ItemStack heldItem = null;
-
   private EquipableClass classType = null;
 
   private int energy = 0;
+  private int lastPotionEffectsCount = 0;
 
   private long lastSpellTime = 0L;
-
   private long lastArcherTagTime = 0L;
+  private long lastBackstabTime = 0L; // Last time this player was backstabbed
 
   private boolean effectsAllowed = true;
-
   private boolean invisible = false;
 
   public ClassPlayer(Player player) {
@@ -236,5 +234,21 @@ public class ClassPlayer {
 
   public float getCooldownLeftSeconds() {
     return Math.round(this.getCooldownLeftMillis() / 1000f * 10f) / 10f; // #.#
+  }
+
+  public int getLastPotionEffectsCount() {
+    return lastPotionEffectsCount;
+  }
+
+  public void setLastPotionEffectsCount(int currentPotionEffectsCount) {
+    this.lastPotionEffectsCount = currentPotionEffectsCount;
+  }
+
+  public boolean hasBackstabCooldown() {
+    return System.currentTimeMillis() - this.lastBackstabTime <= 3000L;
+  }
+
+  public void updateBackstabCooldown() {
+    this.lastBackstabTime = System.currentTimeMillis();
   }
 }
